@@ -14,8 +14,23 @@ import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
+import { Route as AuthenticatedCampaignsRouteImport } from './routes/_authenticated/campaigns'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
+import { Route as AuthenticatedMessagesRouteImport } from './routes/_authenticated/messages'
+import { Route as AuthenticatedPaymentsRouteImport } from './routes/_authenticated/payments'
+import { Route as AuthenticatedProductsRouteImport } from './routes/_authenticated/products'
+import { Route as AuthenticatedReportsRouteImport } from './routes/_authenticated/reports'
+import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticated/settings'
+import { Route as AuthenticatedTeamRouteImport } from './routes/_authenticated/team'
+import { Route as AuthenticatedTestersRouteImport } from './routes/_authenticated/testers'
 import { Route as AuthenticatedTesterIndexRouteImport } from './routes/_authenticated/tester/index'
+import { Route as AuthenticatedTesterAssignmentsRouteImport } from './routes/_authenticated/tester/assignments'
+import { Route as AuthenticatedTesterCompletedRouteImport } from './routes/_authenticated/tester/completed'
+import { Route as AuthenticatedTesterJobsRouteImport } from './routes/_authenticated/tester/jobs'
+import { Route as AuthenticatedTesterProfileRouteImport } from './routes/_authenticated/tester/profile'
+import { Route as AuthenticatedTesterRequestedRouteImport } from './routes/_authenticated/tester/requested'
+import { Route as AuthenticatedTesterRewardsRouteImport } from './routes/_authenticated/tester/rewards'
+import { Route as AuthenticatedTesterSupportRouteImport } from './routes/_authenticated/tester/support'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -41,9 +56,49 @@ const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
   path: '/admin',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedCampaignsRoute = AuthenticatedCampaignsRouteImport.update({
+  id: '/campaigns',
+  path: '/campaigns',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedMessagesRoute = AuthenticatedMessagesRouteImport.update({
+  id: '/messages',
+  path: '/messages',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedPaymentsRoute = AuthenticatedPaymentsRouteImport.update({
+  id: '/payments',
+  path: '/payments',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedProductsRoute = AuthenticatedProductsRouteImport.update({
+  id: '/products',
+  path: '/products',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedReportsRoute = AuthenticatedReportsRouteImport.update({
+  id: '/reports',
+  path: '/reports',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedSettingsRoute = AuthenticatedSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedTeamRoute = AuthenticatedTeamRouteImport.update({
+  id: '/team',
+  path: '/team',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedTestersRoute = AuthenticatedTestersRouteImport.update({
+  id: '/testers',
+  path: '/testers',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedTesterIndexRoute =
@@ -52,13 +107,69 @@ const AuthenticatedTesterIndexRoute =
     path: '/tester/',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedTesterAssignmentsRoute =
+  AuthenticatedTesterAssignmentsRouteImport.update({
+    id: '/tester/assignments',
+    path: '/tester/assignments',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedTesterCompletedRoute =
+  AuthenticatedTesterCompletedRouteImport.update({
+    id: '/tester/completed',
+    path: '/tester/completed',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedTesterJobsRoute = AuthenticatedTesterJobsRouteImport.update({
+  id: '/tester/jobs',
+  path: '/tester/jobs',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedTesterProfileRoute =
+  AuthenticatedTesterProfileRouteImport.update({
+    id: '/tester/profile',
+    path: '/tester/profile',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedTesterRequestedRoute =
+  AuthenticatedTesterRequestedRouteImport.update({
+    id: '/tester/requested',
+    path: '/tester/requested',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedTesterRewardsRoute =
+  AuthenticatedTesterRewardsRouteImport.update({
+    id: '/tester/rewards',
+    path: '/tester/rewards',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedTesterSupportRoute =
+  AuthenticatedTesterSupportRouteImport.update({
+    id: '/tester/support',
+    path: '/tester/support',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/reset-password': typeof ResetPasswordRoute
   '/admin': typeof AuthenticatedAdminRoute
+  '/campaigns': typeof AuthenticatedCampaignsRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
+  '/messages': typeof AuthenticatedMessagesRoute
+  '/payments': typeof AuthenticatedPaymentsRoute
+  '/products': typeof AuthenticatedProductsRoute
+  '/reports': typeof AuthenticatedReportsRoute
+  '/settings': typeof AuthenticatedSettingsRoute
+  '/team': typeof AuthenticatedTeamRoute
+  '/testers': typeof AuthenticatedTestersRoute
+  '/tester/assignments': typeof AuthenticatedTesterAssignmentsRoute
+  '/tester/completed': typeof AuthenticatedTesterCompletedRoute
+  '/tester/jobs': typeof AuthenticatedTesterJobsRoute
+  '/tester/profile': typeof AuthenticatedTesterProfileRoute
+  '/tester/requested': typeof AuthenticatedTesterRequestedRoute
+  '/tester/rewards': typeof AuthenticatedTesterRewardsRoute
+  '/tester/support': typeof AuthenticatedTesterSupportRoute
   '/tester/': typeof AuthenticatedTesterIndexRoute
 }
 export interface FileRoutesByTo {
@@ -66,7 +177,22 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/reset-password': typeof ResetPasswordRoute
   '/admin': typeof AuthenticatedAdminRoute
+  '/campaigns': typeof AuthenticatedCampaignsRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
+  '/messages': typeof AuthenticatedMessagesRoute
+  '/payments': typeof AuthenticatedPaymentsRoute
+  '/products': typeof AuthenticatedProductsRoute
+  '/reports': typeof AuthenticatedReportsRoute
+  '/settings': typeof AuthenticatedSettingsRoute
+  '/team': typeof AuthenticatedTeamRoute
+  '/testers': typeof AuthenticatedTestersRoute
+  '/tester/assignments': typeof AuthenticatedTesterAssignmentsRoute
+  '/tester/completed': typeof AuthenticatedTesterCompletedRoute
+  '/tester/jobs': typeof AuthenticatedTesterJobsRoute
+  '/tester/profile': typeof AuthenticatedTesterProfileRoute
+  '/tester/requested': typeof AuthenticatedTesterRequestedRoute
+  '/tester/rewards': typeof AuthenticatedTesterRewardsRoute
+  '/tester/support': typeof AuthenticatedTesterSupportRoute
   '/tester': typeof AuthenticatedTesterIndexRoute
 }
 export interface FileRoutesById {
@@ -76,15 +202,71 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/reset-password': typeof ResetPasswordRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRoute
+  '/_authenticated/campaigns': typeof AuthenticatedCampaignsRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
+  '/_authenticated/messages': typeof AuthenticatedMessagesRoute
+  '/_authenticated/payments': typeof AuthenticatedPaymentsRoute
+  '/_authenticated/products': typeof AuthenticatedProductsRoute
+  '/_authenticated/reports': typeof AuthenticatedReportsRoute
+  '/_authenticated/settings': typeof AuthenticatedSettingsRoute
+  '/_authenticated/team': typeof AuthenticatedTeamRoute
+  '/_authenticated/testers': typeof AuthenticatedTestersRoute
+  '/_authenticated/tester/assignments': typeof AuthenticatedTesterAssignmentsRoute
+  '/_authenticated/tester/completed': typeof AuthenticatedTesterCompletedRoute
+  '/_authenticated/tester/jobs': typeof AuthenticatedTesterJobsRoute
+  '/_authenticated/tester/profile': typeof AuthenticatedTesterProfileRoute
+  '/_authenticated/tester/requested': typeof AuthenticatedTesterRequestedRoute
+  '/_authenticated/tester/rewards': typeof AuthenticatedTesterRewardsRoute
+  '/_authenticated/tester/support': typeof AuthenticatedTesterSupportRoute
   '/_authenticated/tester/': typeof AuthenticatedTesterIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    '/' | '/auth' | '/reset-password' | '/admin' | '/dashboard' | '/tester/'
+    | '/'
+    | '/auth'
+    | '/reset-password'
+    | '/admin'
+    | '/campaigns'
+    | '/dashboard'
+    | '/messages'
+    | '/payments'
+    | '/products'
+    | '/reports'
+    | '/settings'
+    | '/team'
+    | '/testers'
+    | '/tester/assignments'
+    | '/tester/completed'
+    | '/tester/jobs'
+    | '/tester/profile'
+    | '/tester/requested'
+    | '/tester/rewards'
+    | '/tester/support'
+    | '/tester/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/auth' | '/reset-password' | '/admin' | '/dashboard' | '/tester'
+  to:
+    | '/'
+    | '/auth'
+    | '/reset-password'
+    | '/admin'
+    | '/campaigns'
+    | '/dashboard'
+    | '/messages'
+    | '/payments'
+    | '/products'
+    | '/reports'
+    | '/settings'
+    | '/team'
+    | '/testers'
+    | '/tester/assignments'
+    | '/tester/completed'
+    | '/tester/jobs'
+    | '/tester/profile'
+    | '/tester/requested'
+    | '/tester/rewards'
+    | '/tester/support'
+    | '/tester'
   id:
     | '__root__'
     | '/'
@@ -92,7 +274,22 @@ export interface FileRouteTypes {
     | '/auth'
     | '/reset-password'
     | '/_authenticated/admin'
+    | '/_authenticated/campaigns'
     | '/_authenticated/dashboard'
+    | '/_authenticated/messages'
+    | '/_authenticated/payments'
+    | '/_authenticated/products'
+    | '/_authenticated/reports'
+    | '/_authenticated/settings'
+    | '/_authenticated/team'
+    | '/_authenticated/testers'
+    | '/_authenticated/tester/assignments'
+    | '/_authenticated/tester/completed'
+    | '/_authenticated/tester/jobs'
+    | '/_authenticated/tester/profile'
+    | '/_authenticated/tester/requested'
+    | '/_authenticated/tester/rewards'
+    | '/_authenticated/tester/support'
     | '/_authenticated/tester/'
   fileRoutesById: FileRoutesById
 }
@@ -140,11 +337,67 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/campaigns': {
+      id: '/_authenticated/campaigns'
+      path: '/campaigns'
+      fullPath: '/campaigns'
+      preLoaderRoute: typeof AuthenticatedCampaignsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/dashboard': {
       id: '/_authenticated/dashboard'
       path: '/dashboard'
       fullPath: '/dashboard'
       preLoaderRoute: typeof AuthenticatedDashboardRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/messages': {
+      id: '/_authenticated/messages'
+      path: '/messages'
+      fullPath: '/messages'
+      preLoaderRoute: typeof AuthenticatedMessagesRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/payments': {
+      id: '/_authenticated/payments'
+      path: '/payments'
+      fullPath: '/payments'
+      preLoaderRoute: typeof AuthenticatedPaymentsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/products': {
+      id: '/_authenticated/products'
+      path: '/products'
+      fullPath: '/products'
+      preLoaderRoute: typeof AuthenticatedProductsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/reports': {
+      id: '/_authenticated/reports'
+      path: '/reports'
+      fullPath: '/reports'
+      preLoaderRoute: typeof AuthenticatedReportsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/settings': {
+      id: '/_authenticated/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof AuthenticatedSettingsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/team': {
+      id: '/_authenticated/team'
+      path: '/team'
+      fullPath: '/team'
+      preLoaderRoute: typeof AuthenticatedTeamRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/testers': {
+      id: '/_authenticated/testers'
+      path: '/testers'
+      fullPath: '/testers'
+      preLoaderRoute: typeof AuthenticatedTestersRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/tester/': {
@@ -154,18 +407,97 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedTesterIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/tester/assignments': {
+      id: '/_authenticated/tester/assignments'
+      path: '/tester/assignments'
+      fullPath: '/tester/assignments'
+      preLoaderRoute: typeof AuthenticatedTesterAssignmentsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/tester/completed': {
+      id: '/_authenticated/tester/completed'
+      path: '/tester/completed'
+      fullPath: '/tester/completed'
+      preLoaderRoute: typeof AuthenticatedTesterCompletedRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/tester/jobs': {
+      id: '/_authenticated/tester/jobs'
+      path: '/tester/jobs'
+      fullPath: '/tester/jobs'
+      preLoaderRoute: typeof AuthenticatedTesterJobsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/tester/profile': {
+      id: '/_authenticated/tester/profile'
+      path: '/tester/profile'
+      fullPath: '/tester/profile'
+      preLoaderRoute: typeof AuthenticatedTesterProfileRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/tester/requested': {
+      id: '/_authenticated/tester/requested'
+      path: '/tester/requested'
+      fullPath: '/tester/requested'
+      preLoaderRoute: typeof AuthenticatedTesterRequestedRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/tester/rewards': {
+      id: '/_authenticated/tester/rewards'
+      path: '/tester/rewards'
+      fullPath: '/tester/rewards'
+      preLoaderRoute: typeof AuthenticatedTesterRewardsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/tester/support': {
+      id: '/_authenticated/tester/support'
+      path: '/tester/support'
+      fullPath: '/tester/support'
+      preLoaderRoute: typeof AuthenticatedTesterSupportRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedAdminRoute: typeof AuthenticatedAdminRoute
+  AuthenticatedCampaignsRoute: typeof AuthenticatedCampaignsRoute
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
+  AuthenticatedMessagesRoute: typeof AuthenticatedMessagesRoute
+  AuthenticatedPaymentsRoute: typeof AuthenticatedPaymentsRoute
+  AuthenticatedProductsRoute: typeof AuthenticatedProductsRoute
+  AuthenticatedReportsRoute: typeof AuthenticatedReportsRoute
+  AuthenticatedSettingsRoute: typeof AuthenticatedSettingsRoute
+  AuthenticatedTeamRoute: typeof AuthenticatedTeamRoute
+  AuthenticatedTestersRoute: typeof AuthenticatedTestersRoute
+  AuthenticatedTesterAssignmentsRoute: typeof AuthenticatedTesterAssignmentsRoute
+  AuthenticatedTesterCompletedRoute: typeof AuthenticatedTesterCompletedRoute
+  AuthenticatedTesterJobsRoute: typeof AuthenticatedTesterJobsRoute
+  AuthenticatedTesterProfileRoute: typeof AuthenticatedTesterProfileRoute
+  AuthenticatedTesterRequestedRoute: typeof AuthenticatedTesterRequestedRoute
+  AuthenticatedTesterRewardsRoute: typeof AuthenticatedTesterRewardsRoute
+  AuthenticatedTesterSupportRoute: typeof AuthenticatedTesterSupportRoute
   AuthenticatedTesterIndexRoute: typeof AuthenticatedTesterIndexRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAdminRoute: AuthenticatedAdminRoute,
+  AuthenticatedCampaignsRoute: AuthenticatedCampaignsRoute,
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
+  AuthenticatedMessagesRoute: AuthenticatedMessagesRoute,
+  AuthenticatedPaymentsRoute: AuthenticatedPaymentsRoute,
+  AuthenticatedProductsRoute: AuthenticatedProductsRoute,
+  AuthenticatedReportsRoute: AuthenticatedReportsRoute,
+  AuthenticatedSettingsRoute: AuthenticatedSettingsRoute,
+  AuthenticatedTeamRoute: AuthenticatedTeamRoute,
+  AuthenticatedTestersRoute: AuthenticatedTestersRoute,
+  AuthenticatedTesterAssignmentsRoute: AuthenticatedTesterAssignmentsRoute,
+  AuthenticatedTesterCompletedRoute: AuthenticatedTesterCompletedRoute,
+  AuthenticatedTesterJobsRoute: AuthenticatedTesterJobsRoute,
+  AuthenticatedTesterProfileRoute: AuthenticatedTesterProfileRoute,
+  AuthenticatedTesterRequestedRoute: AuthenticatedTesterRequestedRoute,
+  AuthenticatedTesterRewardsRoute: AuthenticatedTesterRewardsRoute,
+  AuthenticatedTesterSupportRoute: AuthenticatedTesterSupportRoute,
   AuthenticatedTesterIndexRoute: AuthenticatedTesterIndexRoute,
 }
 

@@ -33,6 +33,8 @@ import { Route as AuthenticatedTesterRequestedRouteImport } from './routes/_auth
 import { Route as AuthenticatedTesterRewardsRouteImport } from './routes/_authenticated/tester/rewards'
 import { Route as AuthenticatedTesterSupportRouteImport } from './routes/_authenticated/tester/support'
 import { Route as AuthenticatedTesterVerificationRouteImport } from './routes/_authenticated/tester/verification'
+import { Route as AuthenticatedAdminTestersIndexRouteImport } from './routes/_authenticated/admin/testers/index'
+import { Route as AuthenticatedAdminTestersTesterIdRouteImport } from './routes/_authenticated/admin/testers/$testerId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -162,6 +164,18 @@ const AuthenticatedTesterVerificationRoute =
     path: '/tester/verification',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedAdminTestersIndexRoute =
+  AuthenticatedAdminTestersIndexRouteImport.update({
+    id: '/admin/testers/',
+    path: '/admin/testers/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAdminTestersTesterIdRoute =
+  AuthenticatedAdminTestersTesterIdRouteImport.update({
+    id: '/admin/testers/$testerId',
+    path: '/admin/testers/$testerId',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -187,6 +201,8 @@ export interface FileRoutesByFullPath {
   '/tester/verification': typeof AuthenticatedTesterVerificationRoute
   '/admin/': typeof AuthenticatedAdminIndexRoute
   '/tester/': typeof AuthenticatedTesterIndexRoute
+  '/admin/testers/$testerId': typeof AuthenticatedAdminTestersTesterIdRoute
+  '/admin/testers/': typeof AuthenticatedAdminTestersIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -212,6 +228,8 @@ export interface FileRoutesByTo {
   '/tester/verification': typeof AuthenticatedTesterVerificationRoute
   '/admin': typeof AuthenticatedAdminIndexRoute
   '/tester': typeof AuthenticatedTesterIndexRoute
+  '/admin/testers/$testerId': typeof AuthenticatedAdminTestersTesterIdRoute
+  '/admin/testers': typeof AuthenticatedAdminTestersIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -239,6 +257,8 @@ export interface FileRoutesById {
   '/_authenticated/tester/verification': typeof AuthenticatedTesterVerificationRoute
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
   '/_authenticated/tester/': typeof AuthenticatedTesterIndexRoute
+  '/_authenticated/admin/testers/$testerId': typeof AuthenticatedAdminTestersTesterIdRoute
+  '/_authenticated/admin/testers/': typeof AuthenticatedAdminTestersIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -266,6 +286,8 @@ export interface FileRouteTypes {
     | '/tester/verification'
     | '/admin/'
     | '/tester/'
+    | '/admin/testers/$testerId'
+    | '/admin/testers/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -291,6 +313,8 @@ export interface FileRouteTypes {
     | '/tester/verification'
     | '/admin'
     | '/tester'
+    | '/admin/testers/$testerId'
+    | '/admin/testers'
   id:
     | '__root__'
     | '/'
@@ -317,6 +341,8 @@ export interface FileRouteTypes {
     | '/_authenticated/tester/verification'
     | '/_authenticated/admin/'
     | '/_authenticated/tester/'
+    | '/_authenticated/admin/testers/$testerId'
+    | '/_authenticated/admin/testers/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -496,6 +522,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedTesterVerificationRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/admin/testers/': {
+      id: '/_authenticated/admin/testers/'
+      path: '/admin/testers'
+      fullPath: '/admin/testers/'
+      preLoaderRoute: typeof AuthenticatedAdminTestersIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/testers/$testerId': {
+      id: '/_authenticated/admin/testers/$testerId'
+      path: '/admin/testers/$testerId'
+      fullPath: '/admin/testers/$testerId'
+      preLoaderRoute: typeof AuthenticatedAdminTestersTesterIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
@@ -520,6 +560,8 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedTesterVerificationRoute: typeof AuthenticatedTesterVerificationRoute
   AuthenticatedAdminIndexRoute: typeof AuthenticatedAdminIndexRoute
   AuthenticatedTesterIndexRoute: typeof AuthenticatedTesterIndexRoute
+  AuthenticatedAdminTestersTesterIdRoute: typeof AuthenticatedAdminTestersTesterIdRoute
+  AuthenticatedAdminTestersIndexRoute: typeof AuthenticatedAdminTestersIndexRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
@@ -543,6 +585,9 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedTesterVerificationRoute: AuthenticatedTesterVerificationRoute,
   AuthenticatedAdminIndexRoute: AuthenticatedAdminIndexRoute,
   AuthenticatedTesterIndexRoute: AuthenticatedTesterIndexRoute,
+  AuthenticatedAdminTestersTesterIdRoute:
+    AuthenticatedAdminTestersTesterIdRoute,
+  AuthenticatedAdminTestersIndexRoute: AuthenticatedAdminTestersIndexRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =

@@ -26,11 +26,13 @@ import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authentic
 import { Route as AuthenticatedTesterIndexRouteImport } from './routes/_authenticated/tester/index'
 import { Route as AuthenticatedTesterAssignmentsRouteImport } from './routes/_authenticated/tester/assignments'
 import { Route as AuthenticatedTesterCompletedRouteImport } from './routes/_authenticated/tester/completed'
+import { Route as AuthenticatedTesterDevicesRouteImport } from './routes/_authenticated/tester/devices'
 import { Route as AuthenticatedTesterJobsRouteImport } from './routes/_authenticated/tester/jobs'
 import { Route as AuthenticatedTesterProfileRouteImport } from './routes/_authenticated/tester/profile'
 import { Route as AuthenticatedTesterRequestedRouteImport } from './routes/_authenticated/tester/requested'
 import { Route as AuthenticatedTesterRewardsRouteImport } from './routes/_authenticated/tester/rewards'
 import { Route as AuthenticatedTesterSupportRouteImport } from './routes/_authenticated/tester/support'
+import { Route as AuthenticatedTesterVerificationRouteImport } from './routes/_authenticated/tester/verification'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -119,6 +121,12 @@ const AuthenticatedTesterCompletedRoute =
     path: '/tester/completed',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedTesterDevicesRoute =
+  AuthenticatedTesterDevicesRouteImport.update({
+    id: '/tester/devices',
+    path: '/tester/devices',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedTesterJobsRoute = AuthenticatedTesterJobsRouteImport.update({
   id: '/tester/jobs',
   path: '/tester/jobs',
@@ -148,6 +156,12 @@ const AuthenticatedTesterSupportRoute =
     path: '/tester/support',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedTesterVerificationRoute =
+  AuthenticatedTesterVerificationRouteImport.update({
+    id: '/tester/verification',
+    path: '/tester/verification',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -164,11 +178,13 @@ export interface FileRoutesByFullPath {
   '/testers': typeof AuthenticatedTestersRoute
   '/tester/assignments': typeof AuthenticatedTesterAssignmentsRoute
   '/tester/completed': typeof AuthenticatedTesterCompletedRoute
+  '/tester/devices': typeof AuthenticatedTesterDevicesRoute
   '/tester/jobs': typeof AuthenticatedTesterJobsRoute
   '/tester/profile': typeof AuthenticatedTesterProfileRoute
   '/tester/requested': typeof AuthenticatedTesterRequestedRoute
   '/tester/rewards': typeof AuthenticatedTesterRewardsRoute
   '/tester/support': typeof AuthenticatedTesterSupportRoute
+  '/tester/verification': typeof AuthenticatedTesterVerificationRoute
   '/admin/': typeof AuthenticatedAdminIndexRoute
   '/tester/': typeof AuthenticatedTesterIndexRoute
 }
@@ -187,11 +203,13 @@ export interface FileRoutesByTo {
   '/testers': typeof AuthenticatedTestersRoute
   '/tester/assignments': typeof AuthenticatedTesterAssignmentsRoute
   '/tester/completed': typeof AuthenticatedTesterCompletedRoute
+  '/tester/devices': typeof AuthenticatedTesterDevicesRoute
   '/tester/jobs': typeof AuthenticatedTesterJobsRoute
   '/tester/profile': typeof AuthenticatedTesterProfileRoute
   '/tester/requested': typeof AuthenticatedTesterRequestedRoute
   '/tester/rewards': typeof AuthenticatedTesterRewardsRoute
   '/tester/support': typeof AuthenticatedTesterSupportRoute
+  '/tester/verification': typeof AuthenticatedTesterVerificationRoute
   '/admin': typeof AuthenticatedAdminIndexRoute
   '/tester': typeof AuthenticatedTesterIndexRoute
 }
@@ -212,11 +230,13 @@ export interface FileRoutesById {
   '/_authenticated/testers': typeof AuthenticatedTestersRoute
   '/_authenticated/tester/assignments': typeof AuthenticatedTesterAssignmentsRoute
   '/_authenticated/tester/completed': typeof AuthenticatedTesterCompletedRoute
+  '/_authenticated/tester/devices': typeof AuthenticatedTesterDevicesRoute
   '/_authenticated/tester/jobs': typeof AuthenticatedTesterJobsRoute
   '/_authenticated/tester/profile': typeof AuthenticatedTesterProfileRoute
   '/_authenticated/tester/requested': typeof AuthenticatedTesterRequestedRoute
   '/_authenticated/tester/rewards': typeof AuthenticatedTesterRewardsRoute
   '/_authenticated/tester/support': typeof AuthenticatedTesterSupportRoute
+  '/_authenticated/tester/verification': typeof AuthenticatedTesterVerificationRoute
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
   '/_authenticated/tester/': typeof AuthenticatedTesterIndexRoute
 }
@@ -237,11 +257,13 @@ export interface FileRouteTypes {
     | '/testers'
     | '/tester/assignments'
     | '/tester/completed'
+    | '/tester/devices'
     | '/tester/jobs'
     | '/tester/profile'
     | '/tester/requested'
     | '/tester/rewards'
     | '/tester/support'
+    | '/tester/verification'
     | '/admin/'
     | '/tester/'
   fileRoutesByTo: FileRoutesByTo
@@ -260,11 +282,13 @@ export interface FileRouteTypes {
     | '/testers'
     | '/tester/assignments'
     | '/tester/completed'
+    | '/tester/devices'
     | '/tester/jobs'
     | '/tester/profile'
     | '/tester/requested'
     | '/tester/rewards'
     | '/tester/support'
+    | '/tester/verification'
     | '/admin'
     | '/tester'
   id:
@@ -284,11 +308,13 @@ export interface FileRouteTypes {
     | '/_authenticated/testers'
     | '/_authenticated/tester/assignments'
     | '/_authenticated/tester/completed'
+    | '/_authenticated/tester/devices'
     | '/_authenticated/tester/jobs'
     | '/_authenticated/tester/profile'
     | '/_authenticated/tester/requested'
     | '/_authenticated/tester/rewards'
     | '/_authenticated/tester/support'
+    | '/_authenticated/tester/verification'
     | '/_authenticated/admin/'
     | '/_authenticated/tester/'
   fileRoutesById: FileRoutesById
@@ -421,6 +447,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedTesterCompletedRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/tester/devices': {
+      id: '/_authenticated/tester/devices'
+      path: '/tester/devices'
+      fullPath: '/tester/devices'
+      preLoaderRoute: typeof AuthenticatedTesterDevicesRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/tester/jobs': {
       id: '/_authenticated/tester/jobs'
       path: '/tester/jobs'
@@ -456,6 +489,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedTesterSupportRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/tester/verification': {
+      id: '/_authenticated/tester/verification'
+      path: '/tester/verification'
+      fullPath: '/tester/verification'
+      preLoaderRoute: typeof AuthenticatedTesterVerificationRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
@@ -471,11 +511,13 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedTestersRoute: typeof AuthenticatedTestersRoute
   AuthenticatedTesterAssignmentsRoute: typeof AuthenticatedTesterAssignmentsRoute
   AuthenticatedTesterCompletedRoute: typeof AuthenticatedTesterCompletedRoute
+  AuthenticatedTesterDevicesRoute: typeof AuthenticatedTesterDevicesRoute
   AuthenticatedTesterJobsRoute: typeof AuthenticatedTesterJobsRoute
   AuthenticatedTesterProfileRoute: typeof AuthenticatedTesterProfileRoute
   AuthenticatedTesterRequestedRoute: typeof AuthenticatedTesterRequestedRoute
   AuthenticatedTesterRewardsRoute: typeof AuthenticatedTesterRewardsRoute
   AuthenticatedTesterSupportRoute: typeof AuthenticatedTesterSupportRoute
+  AuthenticatedTesterVerificationRoute: typeof AuthenticatedTesterVerificationRoute
   AuthenticatedAdminIndexRoute: typeof AuthenticatedAdminIndexRoute
   AuthenticatedTesterIndexRoute: typeof AuthenticatedTesterIndexRoute
 }
@@ -492,11 +534,13 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedTestersRoute: AuthenticatedTestersRoute,
   AuthenticatedTesterAssignmentsRoute: AuthenticatedTesterAssignmentsRoute,
   AuthenticatedTesterCompletedRoute: AuthenticatedTesterCompletedRoute,
+  AuthenticatedTesterDevicesRoute: AuthenticatedTesterDevicesRoute,
   AuthenticatedTesterJobsRoute: AuthenticatedTesterJobsRoute,
   AuthenticatedTesterProfileRoute: AuthenticatedTesterProfileRoute,
   AuthenticatedTesterRequestedRoute: AuthenticatedTesterRequestedRoute,
   AuthenticatedTesterRewardsRoute: AuthenticatedTesterRewardsRoute,
   AuthenticatedTesterSupportRoute: AuthenticatedTesterSupportRoute,
+  AuthenticatedTesterVerificationRoute: AuthenticatedTesterVerificationRoute,
   AuthenticatedAdminIndexRoute: AuthenticatedAdminIndexRoute,
   AuthenticatedTesterIndexRoute: AuthenticatedTesterIndexRoute,
 }

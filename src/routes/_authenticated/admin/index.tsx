@@ -2,7 +2,7 @@ import { createFileRoute, Navigate } from "@tanstack/react-router";
 import { LoadingState, ErrorState, EmptyState } from "@/components/states";
 import { useSession } from "@/hooks/useSession";
 
-export const Route = createFileRoute("/_authenticated/admin")({
+export const Route = createFileRoute("/_authenticated/admin/")({
   component: AdminOverview,
 });
 

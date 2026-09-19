@@ -23,18 +23,21 @@ export const CLIENT_NAV: NavItem[] = [
 
 export const TESTER_NAV: NavItem[] = [
   { label: "Dashboard", to: "/tester" },
+  { label: "Profile", to: "/tester/profile" },
+  { label: "Devices", to: "/tester/devices" },
+  { label: "Verification", to: "/tester/verification" },
   { label: "Available Jobs", to: "/tester/jobs" },
   { label: "Requested", to: "/tester/requested" },
   { label: "Assignments", to: "/tester/assignments" },
   { label: "Completed", to: "/tester/completed" },
   { label: "Rewards", to: "/tester/rewards" },
   { label: "Support", to: "/tester/support" },
-  { label: "Profile", to: "/tester/profile" },
   { label: "Settings", to: "/settings" },
 ];
 
 export const ADMIN_NAV: NavItem[] = [
   { label: "Operations", to: "/admin" },
+  { label: "Tester network", to: "/admin/testers" },
   { label: "Campaigns", to: "/campaigns" },
   { label: "Messages", to: "/messages" },
   { label: "Settings", to: "/settings" },

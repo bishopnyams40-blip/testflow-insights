@@ -5,9 +5,15 @@ export const Route = createFileRoute("/_authenticated/payments")({
   head: () => ({
     meta: [
       { title: "Payments — TestFlow" },
-      { name: "description", content: "Invoices, balances and payment history for your organisation." },
+      {
+        name: "description",
+        content: "Invoices, balances and payment history for your organisation.",
+      },
       { property: "og:title", content: "Payments — TestFlow" },
-      { property: "og:description", content: "Invoices, balances and payment history for your organisation." },
+      {
+        property: "og:description",
+        content: "Invoices, balances and payment history for your organisation.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
     ],
@@ -16,5 +22,10 @@ export const Route = createFileRoute("/_authenticated/payments")({
 });
 
 function PaymentsPage() {
-  return <PlaceholderPage title="Payments" description="Invoices, balances and payment history for your organisation." />;
+  return (
+    <PlaceholderPage
+      title="Payments"
+      description="Invoices, balances and payment history for your organisation."
+    />
+  );
 }

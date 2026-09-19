@@ -7,7 +7,10 @@ export const Route = createFileRoute("/_authenticated/settings")({
       { title: "Settings — TestFlow" },
       { name: "description", content: "Account, notification and organisation preferences." },
       { property: "og:title", content: "Settings — TestFlow" },
-      { property: "og:description", content: "Account, notification and organisation preferences." },
+      {
+        property: "og:description",
+        content: "Account, notification and organisation preferences.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
     ],
@@ -16,5 +19,10 @@ export const Route = createFileRoute("/_authenticated/settings")({
 });
 
 function SettingsPage() {
-  return <PlaceholderPage title="Settings" description="Account, notification and organisation preferences." />;
+  return (
+    <PlaceholderPage
+      title="Settings"
+      description="Account, notification and organisation preferences."
+    />
+  );
 }

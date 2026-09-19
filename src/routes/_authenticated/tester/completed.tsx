@@ -16,5 +16,10 @@ export const Route = createFileRoute("/_authenticated/tester/completed")({
 });
 
 function TesterCompletedPage() {
-  return <PlaceholderPage title="Completed" description="Work you have finished and submitted for review." />;
+  return (
+    <PlaceholderPage
+      title="Completed"
+      description="Work you have finished and submitted for review."
+    />
+  );
 }

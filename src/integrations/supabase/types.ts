@@ -1056,6 +1056,10 @@ export type Database = {
       is_org_manager: { Args: { _org_id: string }; Returns: boolean }
       is_org_member: { Args: { _org_id: string }; Returns: boolean }
       owns_tester_profile: { Args: { _tester_id: string }; Returns: boolean }
+      self_has_role: {
+        Args: { _role: Database["public"]["Enums"]["app_role"] }
+        Returns: boolean
+      }
     }
     Enums: {
       app_role: "CLIENT" | "TESTER" | "ADMIN"

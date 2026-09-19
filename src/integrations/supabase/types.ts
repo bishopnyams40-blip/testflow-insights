@@ -1063,7 +1063,7 @@ export type Database = {
     }
     Enums: {
       app_role: "CLIENT" | "TESTER" | "ADMIN"
-      availability_status: "AVAILABLE" | "BUSY" | "UNAVAILABLE"
+      availability_status: "AVAILABLE" | "BUSY" | "UNAVAILABLE" | "LIMITED"
       campaign_status:
         | "DRAFT"
         | "QUOTED"
@@ -1095,7 +1095,12 @@ export type Database = {
         | "WEARABLE"
         | "TV"
         | "OTHER"
-      experience_level: "BEGINNER" | "INTERMEDIATE" | "ADVANCED" | "EXPERT"
+      experience_level:
+        | "BEGINNER"
+        | "INTERMEDIATE"
+        | "ADVANCED"
+        | "EXPERT"
+        | "EXPERIENCED"
       file_asset_kind:
         | "SCREENSHOT"
         | "BUG_EVIDENCE"
@@ -1158,7 +1163,13 @@ export type Database = {
         | "ADJUSTMENT"
         | "FEE"
       user_status: "PENDING" | "ACTIVE" | "SUSPENDED" | "DEACTIVATED"
-      verification_status: "PENDING" | "VERIFIED" | "FAILED" | "EXPIRED"
+      verification_status:
+        | "PENDING"
+        | "VERIFIED"
+        | "FAILED"
+        | "EXPIRED"
+        | "NOT_STARTED"
+        | "REJECTED"
       verification_type:
         | "EMAIL"
         | "PHONE"
@@ -1294,7 +1305,7 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["CLIENT", "TESTER", "ADMIN"],
-      availability_status: ["AVAILABLE", "BUSY", "UNAVAILABLE"],
+      availability_status: ["AVAILABLE", "BUSY", "UNAVAILABLE", "LIMITED"],
       campaign_status: [
         "DRAFT",
         "QUOTED",
@@ -1329,7 +1340,13 @@ export const Constants = {
         "TV",
         "OTHER",
       ],
-      experience_level: ["BEGINNER", "INTERMEDIATE", "ADVANCED", "EXPERT"],
+      experience_level: [
+        "BEGINNER",
+        "INTERMEDIATE",
+        "ADVANCED",
+        "EXPERT",
+        "EXPERIENCED",
+      ],
       file_asset_kind: [
         "SCREENSHOT",
         "BUG_EVIDENCE",
@@ -1393,7 +1410,14 @@ export const Constants = {
       ],
       transaction_type: ["CHARGE", "REFUND", "CHARGEBACK", "ADJUSTMENT", "FEE"],
       user_status: ["PENDING", "ACTIVE", "SUSPENDED", "DEACTIVATED"],
-      verification_status: ["PENDING", "VERIFIED", "FAILED", "EXPIRED"],
+      verification_status: [
+        "PENDING",
+        "VERIFIED",
+        "FAILED",
+        "EXPIRED",
+        "NOT_STARTED",
+        "REJECTED",
+      ],
       verification_type: [
         "EMAIL",
         "PHONE",

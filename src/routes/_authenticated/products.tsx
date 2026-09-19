@@ -5,9 +5,15 @@ export const Route = createFileRoute("/_authenticated/products")({
   head: () => ({
     meta: [
       { title: "Products — TestFlow" },
-      { name: "description", content: "The apps, sites and builds your organisation submits for testing." },
+      {
+        name: "description",
+        content: "The apps, sites and builds your organisation submits for testing.",
+      },
       { property: "og:title", content: "Products — TestFlow" },
-      { property: "og:description", content: "The apps, sites and builds your organisation submits for testing." },
+      {
+        property: "og:description",
+        content: "The apps, sites and builds your organisation submits for testing.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
     ],
@@ -16,5 +22,10 @@ export const Route = createFileRoute("/_authenticated/products")({
 });
 
 function ProductsPage() {
-  return <PlaceholderPage title="Products" description="The apps, sites and builds your organisation submits for testing." />;
+  return (
+    <PlaceholderPage
+      title="Products"
+      description="The apps, sites and builds your organisation submits for testing."
+    />
+  );
 }

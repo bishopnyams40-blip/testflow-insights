@@ -5,9 +5,15 @@ export const Route = createFileRoute("/_authenticated/tester/profile")({
   head: () => ({
     meta: [
       { title: "Profile — TestFlow" },
-      { name: "description", content: "Your devices, skills and verification details used for matching." },
+      {
+        name: "description",
+        content: "Your devices, skills and verification details used for matching.",
+      },
       { property: "og:title", content: "Profile — TestFlow" },
-      { property: "og:description", content: "Your devices, skills and verification details used for matching." },
+      {
+        property: "og:description",
+        content: "Your devices, skills and verification details used for matching.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
     ],
@@ -16,5 +22,10 @@ export const Route = createFileRoute("/_authenticated/tester/profile")({
 });
 
 function TesterProfilePage() {
-  return <PlaceholderPage title="Profile" description="Your devices, skills and verification details used for matching." />;
+  return (
+    <PlaceholderPage
+      title="Profile"
+      description="Your devices, skills and verification details used for matching."
+    />
+  );
 }

@@ -227,7 +227,13 @@ function AuthPage() {
                   )}
 
                   <Field id="signupEmail" label="Email" error={errors["email"]}>
-                    <Input id="signupEmail" name="email" type="email" autoComplete="email" required />
+                    <Input
+                      id="signupEmail"
+                      name="email"
+                      type="email"
+                      autoComplete="email"
+                      required
+                    />
                   </Field>
                   <Field
                     id="signupPassword"

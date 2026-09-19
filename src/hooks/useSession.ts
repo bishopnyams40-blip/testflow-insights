@@ -40,8 +40,7 @@ export async function fetchSession(): Promise<SessionSnapshot | null> {
   const roles = (rolesResult.data ?? []).map((row) => row.role as AppRole);
   const memberships: OrganizationMembership[] = (membershipResult.data ?? []).map((row) => ({
     organizationId: row.organization_id,
-    organizationName:
-      (row.organizations as { name: string } | null)?.name ?? "Organisation",
+    organizationName: (row.organizations as { name: string } | null)?.name ?? "Organisation",
     role: row.role,
   }));
 

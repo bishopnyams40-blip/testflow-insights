@@ -16,5 +16,10 @@ export const Route = createFileRoute("/_authenticated/tester/assignments")({
 });
 
 function TesterAssignmentsPage() {
-  return <PlaceholderPage title="Assignments" description="Work TestFlow has formally assigned to you." />;
+  return (
+    <PlaceholderPage
+      title="Assignments"
+      description="Work TestFlow has formally assigned to you."
+    />
+  );
 }

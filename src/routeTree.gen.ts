@@ -13,7 +13,6 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
-import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as AuthenticatedCampaignsRouteImport } from './routes/_authenticated/campaigns'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as AuthenticatedMessagesRouteImport } from './routes/_authenticated/messages'
@@ -23,6 +22,7 @@ import { Route as AuthenticatedReportsRouteImport } from './routes/_authenticate
 import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticated/settings'
 import { Route as AuthenticatedTeamRouteImport } from './routes/_authenticated/team'
 import { Route as AuthenticatedTestersRouteImport } from './routes/_authenticated/testers'
+import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin/index'
 import { Route as AuthenticatedTesterIndexRouteImport } from './routes/_authenticated/tester/index'
 import { Route as AuthenticatedTesterAssignmentsRouteImport } from './routes/_authenticated/tester/assignments'
 import { Route as AuthenticatedTesterCompletedRouteImport } from './routes/_authenticated/tester/completed'
@@ -50,11 +50,6 @@ const ResetPasswordRoute = ResetPasswordRouteImport.update({
   id: '/reset-password',
   path: '/reset-password',
   getParentRoute: () => rootRouteImport,
-} as any)
-const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
-  id: '/admin',
-  path: '/admin',
-  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedCampaignsRoute = AuthenticatedCampaignsRouteImport.update({
   id: '/campaigns',
@@ -99,6 +94,11 @@ const AuthenticatedTeamRoute = AuthenticatedTeamRouteImport.update({
 const AuthenticatedTestersRoute = AuthenticatedTestersRouteImport.update({
   id: '/testers',
   path: '/testers',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedAdminIndexRoute = AuthenticatedAdminIndexRouteImport.update({
+  id: '/admin/',
+  path: '/admin/',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedTesterIndexRoute =
@@ -153,7 +153,6 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/reset-password': typeof ResetPasswordRoute
-  '/admin': typeof AuthenticatedAdminRoute
   '/campaigns': typeof AuthenticatedCampaignsRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/messages': typeof AuthenticatedMessagesRoute
@@ -170,13 +169,13 @@ export interface FileRoutesByFullPath {
   '/tester/requested': typeof AuthenticatedTesterRequestedRoute
   '/tester/rewards': typeof AuthenticatedTesterRewardsRoute
   '/tester/support': typeof AuthenticatedTesterSupportRoute
+  '/admin/': typeof AuthenticatedAdminIndexRoute
   '/tester/': typeof AuthenticatedTesterIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/reset-password': typeof ResetPasswordRoute
-  '/admin': typeof AuthenticatedAdminRoute
   '/campaigns': typeof AuthenticatedCampaignsRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/messages': typeof AuthenticatedMessagesRoute
@@ -193,6 +192,7 @@ export interface FileRoutesByTo {
   '/tester/requested': typeof AuthenticatedTesterRequestedRoute
   '/tester/rewards': typeof AuthenticatedTesterRewardsRoute
   '/tester/support': typeof AuthenticatedTesterSupportRoute
+  '/admin': typeof AuthenticatedAdminIndexRoute
   '/tester': typeof AuthenticatedTesterIndexRoute
 }
 export interface FileRoutesById {
@@ -201,7 +201,6 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
   '/reset-password': typeof ResetPasswordRoute
-  '/_authenticated/admin': typeof AuthenticatedAdminRoute
   '/_authenticated/campaigns': typeof AuthenticatedCampaignsRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/_authenticated/messages': typeof AuthenticatedMessagesRoute
@@ -218,6 +217,7 @@ export interface FileRoutesById {
   '/_authenticated/tester/requested': typeof AuthenticatedTesterRequestedRoute
   '/_authenticated/tester/rewards': typeof AuthenticatedTesterRewardsRoute
   '/_authenticated/tester/support': typeof AuthenticatedTesterSupportRoute
+  '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
   '/_authenticated/tester/': typeof AuthenticatedTesterIndexRoute
 }
 export interface FileRouteTypes {
@@ -226,7 +226,6 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/reset-password'
-    | '/admin'
     | '/campaigns'
     | '/dashboard'
     | '/messages'
@@ -243,13 +242,13 @@ export interface FileRouteTypes {
     | '/tester/requested'
     | '/tester/rewards'
     | '/tester/support'
+    | '/admin/'
     | '/tester/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/auth'
     | '/reset-password'
-    | '/admin'
     | '/campaigns'
     | '/dashboard'
     | '/messages'
@@ -266,6 +265,7 @@ export interface FileRouteTypes {
     | '/tester/requested'
     | '/tester/rewards'
     | '/tester/support'
+    | '/admin'
     | '/tester'
   id:
     | '__root__'
@@ -273,7 +273,6 @@ export interface FileRouteTypes {
     | '/_authenticated'
     | '/auth'
     | '/reset-password'
-    | '/_authenticated/admin'
     | '/_authenticated/campaigns'
     | '/_authenticated/dashboard'
     | '/_authenticated/messages'
@@ -290,6 +289,7 @@ export interface FileRouteTypes {
     | '/_authenticated/tester/requested'
     | '/_authenticated/tester/rewards'
     | '/_authenticated/tester/support'
+    | '/_authenticated/admin/'
     | '/_authenticated/tester/'
   fileRoutesById: FileRoutesById
 }
@@ -329,13 +329,6 @@ declare module '@tanstack/react-router' {
       fullPath: '/reset-password'
       preLoaderRoute: typeof ResetPasswordRouteImport
       parentRoute: typeof rootRouteImport
-    }
-    '/_authenticated/admin': {
-      id: '/_authenticated/admin'
-      path: '/admin'
-      fullPath: '/admin'
-      preLoaderRoute: typeof AuthenticatedAdminRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/campaigns': {
       id: '/_authenticated/campaigns'
@@ -400,6 +393,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedTestersRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/admin/': {
+      id: '/_authenticated/admin/'
+      path: '/admin'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AuthenticatedAdminIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/tester/': {
       id: '/_authenticated/tester/'
       path: '/tester'
@@ -460,7 +460,6 @@ declare module '@tanstack/react-router' {
 }
 
 interface AuthenticatedRouteRouteChildren {
-  AuthenticatedAdminRoute: typeof AuthenticatedAdminRoute
   AuthenticatedCampaignsRoute: typeof AuthenticatedCampaignsRoute
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
   AuthenticatedMessagesRoute: typeof AuthenticatedMessagesRoute
@@ -477,11 +476,11 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedTesterRequestedRoute: typeof AuthenticatedTesterRequestedRoute
   AuthenticatedTesterRewardsRoute: typeof AuthenticatedTesterRewardsRoute
   AuthenticatedTesterSupportRoute: typeof AuthenticatedTesterSupportRoute
+  AuthenticatedAdminIndexRoute: typeof AuthenticatedAdminIndexRoute
   AuthenticatedTesterIndexRoute: typeof AuthenticatedTesterIndexRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
-  AuthenticatedAdminRoute: AuthenticatedAdminRoute,
   AuthenticatedCampaignsRoute: AuthenticatedCampaignsRoute,
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
   AuthenticatedMessagesRoute: AuthenticatedMessagesRoute,
@@ -498,6 +497,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedTesterRequestedRoute: AuthenticatedTesterRequestedRoute,
   AuthenticatedTesterRewardsRoute: AuthenticatedTesterRewardsRoute,
   AuthenticatedTesterSupportRoute: AuthenticatedTesterSupportRoute,
+  AuthenticatedAdminIndexRoute: AuthenticatedAdminIndexRoute,
   AuthenticatedTesterIndexRoute: AuthenticatedTesterIndexRoute,
 }
 

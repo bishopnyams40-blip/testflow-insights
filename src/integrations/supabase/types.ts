@@ -833,9 +833,14 @@ export type Database = {
           model: string | null
           operating_system: string | null
           os_version: string | null
+          platform: Database["public"]["Enums"]["device_platform"]
+          rejection_reason: string | null
           tester_id: string
           updated_at: string
+          verification_status: Database["public"]["Enums"]["attribute_verification_status"]
           verified: boolean
+          verified_at: string | null
+          verified_by: string | null
         }
         Insert: {
           browser?: string | null
@@ -847,9 +852,14 @@ export type Database = {
           model?: string | null
           operating_system?: string | null
           os_version?: string | null
+          platform?: Database["public"]["Enums"]["device_platform"]
+          rejection_reason?: string | null
           tester_id: string
           updated_at?: string
+          verification_status?: Database["public"]["Enums"]["attribute_verification_status"]
           verified?: boolean
+          verified_at?: string | null
+          verified_by?: string | null
         }
         Update: {
           browser?: string | null
@@ -861,9 +871,14 @@ export type Database = {
           model?: string | null
           operating_system?: string | null
           os_version?: string | null
+          platform?: Database["public"]["Enums"]["device_platform"]
+          rejection_reason?: string | null
           tester_id?: string
           updated_at?: string
+          verification_status?: Database["public"]["Enums"]["attribute_verification_status"]
           verified?: boolean
+          verified_at?: string | null
+          verified_by?: string | null
         }
         Relationships: [
           {
@@ -877,54 +892,72 @@ export type Database = {
       }
       tester_profiles: {
         Row: {
+          account_status: Database["public"]["Enums"]["user_status"]
           age_range: string | null
           availability_status: Database["public"]["Enums"]["availability_status"]
           bio: string | null
+          city: string | null
+          completed_jobs_count: number
           completion_rate: number
           country: string | null
           created_at: string
           experience_level: Database["public"]["Enums"]["experience_level"]
+          expired_jobs_count: number
           fraud_risk_score: number
           id: string
           occupation: string | null
           quality_score: number
+          rejected_jobs_count: number
           reliability_score: number
+          scores_calculated_at: string | null
           timezone: string | null
           updated_at: string
           user_id: string
           verification_status: Database["public"]["Enums"]["verification_status"]
         }
         Insert: {
+          account_status?: Database["public"]["Enums"]["user_status"]
           age_range?: string | null
           availability_status?: Database["public"]["Enums"]["availability_status"]
           bio?: string | null
+          city?: string | null
+          completed_jobs_count?: number
           completion_rate?: number
           country?: string | null
           created_at?: string
           experience_level?: Database["public"]["Enums"]["experience_level"]
+          expired_jobs_count?: number
           fraud_risk_score?: number
           id?: string
           occupation?: string | null
           quality_score?: number
+          rejected_jobs_count?: number
           reliability_score?: number
+          scores_calculated_at?: string | null
           timezone?: string | null
           updated_at?: string
           user_id: string
           verification_status?: Database["public"]["Enums"]["verification_status"]
         }
         Update: {
+          account_status?: Database["public"]["Enums"]["user_status"]
           age_range?: string | null
           availability_status?: Database["public"]["Enums"]["availability_status"]
           bio?: string | null
+          city?: string | null
+          completed_jobs_count?: number
           completion_rate?: number
           country?: string | null
           created_at?: string
           experience_level?: Database["public"]["Enums"]["experience_level"]
+          expired_jobs_count?: number
           fraud_risk_score?: number
           id?: string
           occupation?: string | null
           quality_score?: number
+          rejected_jobs_count?: number
           reliability_score?: number
+          scores_calculated_at?: string | null
           timezone?: string | null
           updated_at?: string
           user_id?: string
@@ -940,7 +973,10 @@ export type Database = {
           skill: string
           tester_id: string
           updated_at: string
+          verification_status: Database["public"]["Enums"]["attribute_verification_status"]
           verified: boolean
+          verified_at: string | null
+          verified_by: string | null
         }
         Insert: {
           created_at?: string
@@ -949,7 +985,10 @@ export type Database = {
           skill: string
           tester_id: string
           updated_at?: string
+          verification_status?: Database["public"]["Enums"]["attribute_verification_status"]
           verified?: boolean
+          verified_at?: string | null
+          verified_by?: string | null
         }
         Update: {
           created_at?: string
@@ -958,7 +997,10 @@ export type Database = {
           skill?: string
           tester_id?: string
           updated_at?: string
+          verification_status?: Database["public"]["Enums"]["attribute_verification_status"]
           verified?: boolean
+          verified_at?: string | null
+          verified_by?: string | null
         }
         Relationships: [
           {
@@ -976,6 +1018,8 @@ export type Database = {
           expires_at: string | null
           id: string
           metadata: Json
+          rejection_reason: string | null
+          reviewed_by: string | null
           status: Database["public"]["Enums"]["verification_status"]
           tester_id: string
           updated_at: string
@@ -987,6 +1031,8 @@ export type Database = {
           expires_at?: string | null
           id?: string
           metadata?: Json
+          rejection_reason?: string | null
+          reviewed_by?: string | null
           status?: Database["public"]["Enums"]["verification_status"]
           tester_id: string
           updated_at?: string
@@ -998,6 +1044,8 @@ export type Database = {
           expires_at?: string | null
           id?: string
           metadata?: Json
+          rejection_reason?: string | null
+          reviewed_by?: string | null
           status?: Database["public"]["Enums"]["verification_status"]
           tester_id?: string
           updated_at?: string
@@ -1040,6 +1088,85 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      admin_list_testers: {
+        Args: {
+          _account_status?: Database["public"]["Enums"]["user_status"]
+          _availability?: Database["public"]["Enums"]["availability_status"]
+          _country?: string
+          _experience?: Database["public"]["Enums"]["experience_level"]
+          _limit?: number
+          _offset?: number
+          _platform?: Database["public"]["Enums"]["device_platform"]
+          _search?: string
+          _verification?: Database["public"]["Enums"]["verification_status"]
+        }
+        Returns: {
+          account_status: Database["public"]["Enums"]["user_status"]
+          availability_status: Database["public"]["Enums"]["availability_status"]
+          city: string
+          country: string
+          created_at: string
+          device_count: number
+          email: string
+          experience_level: Database["public"]["Enums"]["experience_level"]
+          first_name: string
+          id: string
+          last_name: string
+          skill_count: number
+          timezone: string
+          total_count: number
+          user_id: string
+          verification_status: Database["public"]["Enums"]["verification_status"]
+        }[]
+      }
+      admin_review_device: {
+        Args: {
+          _device_id: string
+          _reason?: string
+          _status: Database["public"]["Enums"]["attribute_verification_status"]
+        }
+        Returns: undefined
+      }
+      admin_review_skill: {
+        Args: {
+          _skill_id: string
+          _status: Database["public"]["Enums"]["attribute_verification_status"]
+        }
+        Returns: undefined
+      }
+      admin_review_verification: {
+        Args: {
+          _reason?: string
+          _status: Database["public"]["Enums"]["verification_status"]
+          _tester_id: string
+          _type: Database["public"]["Enums"]["verification_type"]
+        }
+        Returns: undefined
+      }
+      admin_set_tester_availability: {
+        Args: {
+          _availability: Database["public"]["Enums"]["availability_status"]
+          _tester_id: string
+        }
+        Returns: undefined
+      }
+      admin_set_tester_status: {
+        Args: {
+          _reason?: string
+          _status: Database["public"]["Enums"]["user_status"]
+          _tester_id: string
+        }
+        Returns: undefined
+      }
+      admin_tester_network_stats: {
+        Args: never
+        Returns: {
+          active: number
+          pending_verification: number
+          suspended: number
+          total: number
+        }[]
+      }
       can_access_campaign: { Args: { _campaign_id: string }; Returns: boolean }
       can_access_conversation: {
         Args: { _conversation_id: string }
@@ -1055,7 +1182,27 @@ export type Database = {
       is_admin: { Args: never; Returns: boolean }
       is_org_manager: { Args: { _org_id: string }; Returns: boolean }
       is_org_member: { Args: { _org_id: string }; Returns: boolean }
+      notify_tester: {
+        Args: {
+          _body: string
+          _event: string
+          _title: string
+          _user_id: string
+        }
+        Returns: undefined
+      }
       owns_tester_profile: { Args: { _tester_id: string }; Returns: boolean }
+      record_tester_audit: {
+        Args: {
+          _action: string
+          _entity_id: string
+          _entity_type: string
+          _metadata?: Json
+          _new: Json
+          _previous: Json
+        }
+        Returns: undefined
+      }
       self_has_role: {
         Args: { _role: Database["public"]["Enums"]["app_role"] }
         Returns: boolean
@@ -1063,6 +1210,11 @@ export type Database = {
     }
     Enums: {
       app_role: "CLIENT" | "TESTER" | "ADMIN"
+      attribute_verification_status:
+        | "UNVERIFIED"
+        | "PENDING"
+        | "VERIFIED"
+        | "REJECTED"
       availability_status: "AVAILABLE" | "BUSY" | "UNAVAILABLE" | "LIMITED"
       campaign_status:
         | "DRAFT"
@@ -1087,6 +1239,14 @@ export type Database = {
         | "GENERAL_SUPPORT"
         | "PAYMENT"
         | "TECHNICAL_SUPPORT"
+      device_platform:
+        | "IPHONE"
+        | "ANDROID"
+        | "IPAD"
+        | "MAC"
+        | "WINDOWS"
+        | "LINUX"
+        | "OTHER"
       device_type:
         | "PHONE"
         | "TABLET"
@@ -1305,6 +1465,12 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["CLIENT", "TESTER", "ADMIN"],
+      attribute_verification_status: [
+        "UNVERIFIED",
+        "PENDING",
+        "VERIFIED",
+        "REJECTED",
+      ],
       availability_status: ["AVAILABLE", "BUSY", "UNAVAILABLE", "LIMITED"],
       campaign_status: [
         "DRAFT",
@@ -1330,6 +1496,15 @@ export const Constants = {
         "GENERAL_SUPPORT",
         "PAYMENT",
         "TECHNICAL_SUPPORT",
+      ],
+      device_platform: [
+        "IPHONE",
+        "ANDROID",
+        "IPAD",
+        "MAC",
+        "WINDOWS",
+        "LINUX",
+        "OTHER",
       ],
       device_type: [
         "PHONE",

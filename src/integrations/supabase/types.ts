@@ -143,51 +143,84 @@ export type Database = {
       }
       campaigns: {
         Row: {
+          cancellation_reason: string | null
+          cancelled_at: string | null
+          client_notes: string | null
+          completed_at: string | null
           created_at: string
           created_by: string
           deadline: string | null
           description: string | null
           id: string
+          login_required: boolean
           name: string
           objective: string | null
           organization_id: string
+          paid_at: string | null
           participant_target: number
           pricing_snapshot: Json
+          product_name: string | null
+          product_type: Database["public"]["Enums"]["product_type"] | null
           product_url: string | null
+          quoted_at: string | null
           service_type: Database["public"]["Enums"]["service_type"]
           status: Database["public"]["Enums"]["campaign_status"]
+          submitted_at: string | null
+          test_account_instructions: string | null
           updated_at: string
         }
         Insert: {
+          cancellation_reason?: string | null
+          cancelled_at?: string | null
+          client_notes?: string | null
+          completed_at?: string | null
           created_at?: string
           created_by: string
           deadline?: string | null
           description?: string | null
           id?: string
+          login_required?: boolean
           name: string
           objective?: string | null
           organization_id: string
+          paid_at?: string | null
           participant_target?: number
           pricing_snapshot?: Json
+          product_name?: string | null
+          product_type?: Database["public"]["Enums"]["product_type"] | null
           product_url?: string | null
+          quoted_at?: string | null
           service_type: Database["public"]["Enums"]["service_type"]
           status?: Database["public"]["Enums"]["campaign_status"]
+          submitted_at?: string | null
+          test_account_instructions?: string | null
           updated_at?: string
         }
         Update: {
+          cancellation_reason?: string | null
+          cancelled_at?: string | null
+          client_notes?: string | null
+          completed_at?: string | null
           created_at?: string
           created_by?: string
           deadline?: string | null
           description?: string | null
           id?: string
+          login_required?: boolean
           name?: string
           objective?: string | null
           organization_id?: string
+          paid_at?: string | null
           participant_target?: number
           pricing_snapshot?: Json
+          product_name?: string | null
+          product_type?: Database["public"]["Enums"]["product_type"] | null
           product_url?: string | null
+          quoted_at?: string | null
           service_type?: Database["public"]["Enums"]["service_type"]
           status?: Database["public"]["Enums"]["campaign_status"]
+          submitted_at?: string | null
+          test_account_instructions?: string | null
           updated_at?: string
         }
         Relationships: [
@@ -1088,6 +1121,40 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      admin_campaign_stats: {
+        Args: never
+        Returns: {
+          cancelled: number
+          drafts: number
+          submitted: number
+          total: number
+        }[]
+      }
+      admin_list_campaigns: {
+        Args: {
+          _limit?: number
+          _offset?: number
+          _organization_id?: string
+          _search?: string
+          _service?: Database["public"]["Enums"]["service_type"]
+          _status?: Database["public"]["Enums"]["campaign_status"]
+        }
+        Returns: {
+          created_at: string
+          created_by: string
+          creator_email: string
+          deadline: string
+          id: string
+          name: string
+          organization_id: string
+          organization_name: string
+          participant_target: number
+          service_type: Database["public"]["Enums"]["service_type"]
+          status: Database["public"]["Enums"]["campaign_status"]
+          total_count: number
+          updated_at: string
+        }[]
+      }
       admin_list_testers: {
         Args: {
           _account_status?: Database["public"]["Enums"]["user_status"]
@@ -1143,6 +1210,14 @@ export type Database = {
         }
         Returns: undefined
       }
+      admin_set_campaign_status: {
+        Args: {
+          _campaign_id: string
+          _reason?: string
+          _status: Database["public"]["Enums"]["campaign_status"]
+        }
+        Returns: Database["public"]["Enums"]["campaign_status"]
+      }
       admin_set_tester_availability: {
         Args: {
           _availability: Database["public"]["Enums"]["availability_status"]
@@ -1167,11 +1242,32 @@ export type Database = {
           total: number
         }[]
       }
+      campaign_cancel: {
+        Args: { _campaign_id: string; _reason: string }
+        Returns: Database["public"]["Enums"]["campaign_status"]
+      }
+      campaign_core_completeness: {
+        Args: { _campaign_id: string }
+        Returns: Json
+      }
+      campaign_delete_draft: {
+        Args: { _campaign_id: string }
+        Returns: undefined
+      }
+      campaign_submit: {
+        Args: { _campaign_id: string }
+        Returns: Database["public"]["Enums"]["campaign_status"]
+      }
+      campaign_withdraw_to_draft: {
+        Args: { _campaign_id: string }
+        Returns: Database["public"]["Enums"]["campaign_status"]
+      }
       can_access_campaign: { Args: { _campaign_id: string }; Returns: boolean }
       can_access_conversation: {
         Args: { _conversation_id: string }
         Returns: boolean
       }
+      can_manage_campaigns: { Args: { _org_id: string }; Returns: boolean }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
@@ -1299,6 +1395,14 @@ export type Database = {
         | "CANCELLED"
         | "REFUNDED"
         | "PARTIALLY_REFUNDED"
+      product_type:
+        | "WEBSITE"
+        | "WEB_APP"
+        | "MOBILE_APP"
+        | "DESKTOP_APP"
+        | "PROTOTYPE"
+        | "CONCEPT"
+        | "OTHER"
       requirement_operator:
         | "EQUALS"
         | "NOT_EQUALS"
@@ -1563,6 +1667,15 @@ export const Constants = {
         "CANCELLED",
         "REFUNDED",
         "PARTIALLY_REFUNDED",
+      ],
+      product_type: [
+        "WEBSITE",
+        "WEB_APP",
+        "MOBILE_APP",
+        "DESKTOP_APP",
+        "PROTOTYPE",
+        "CONCEPT",
+        "OTHER",
       ],
       requirement_operator: [
         "EQUALS",

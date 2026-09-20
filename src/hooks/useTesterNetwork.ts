@@ -218,13 +218,13 @@ export function useAdminTesters(filters: AdminTesterFilters, enabled: boolean) {
     enabled,
     queryFn: async () => {
       const { data, error } = await supabase.rpc("admin_list_testers", {
-        _search: filters.search || null,
-        _account_status: filters.accountStatus,
-        _availability: filters.availability,
-        _verification: filters.verification,
-        _experience: filters.experience,
-        _country: filters.country || null,
-        _platform: filters.platform,
+        ...(filters.search ? { _search: filters.search } : {}),
+        ...(filters.accountStatus ? { _account_status: filters.accountStatus } : {}),
+        ...(filters.availability ? { _availability: filters.availability } : {}),
+        ...(filters.verification ? { _verification: filters.verification } : {}),
+        ...(filters.experience ? { _experience: filters.experience } : {}),
+        ...(filters.country ? { _country: filters.country } : {}),
+        ...(filters.platform ? { _platform: filters.platform } : {}),
         _limit: filters.pageSize,
         _offset: (filters.page - 1) * filters.pageSize,
       });
@@ -285,11 +285,17 @@ export function useAdminTesterActions(testerId: string) {
   };
 
   const setStatus = useMutation({
-    mutationFn: async ({ status, reason }: { status: AccountStatus; reason?: string }) => {
+    mutationFn: async ({
+      status,
+      reason,
+    }: {
+      status: AccountStatus;
+      reason?: string | undefined;
+    }) => {
       const { error } = await supabase.rpc("admin_set_tester_status", {
         _tester_id: testerId,
         _status: status,
-        _reason: reason ?? null,
+        ...(reason ? { _reason: reason } : {}),
       });
       if (error) throw error;
     },
@@ -315,12 +321,12 @@ export function useAdminTesterActions(testerId: string) {
     }: {
       deviceId: string;
       status: AttributeVerificationStatus;
-      reason?: string;
+      reason?: string | undefined;
     }) => {
       const { error } = await supabase.rpc("admin_review_device", {
         _device_id: deviceId,
         _status: status,
-        _reason: reason ?? null,
+        ...(reason ? { _reason: reason } : {}),
       });
       if (error) throw error;
     },
@@ -352,13 +358,13 @@ export function useAdminTesterActions(testerId: string) {
     }: {
       type: VerificationType;
       status: VerificationStatus;
-      reason?: string;
+      reason?: string | undefined;
     }) => {
       const { error } = await supabase.rpc("admin_review_verification", {
         _tester_id: testerId,
         _type: type,
         _status: status,
-        _reason: reason ?? null,
+        ...(reason ? { _reason: reason } : {}),
       });
       if (error) throw error;
     },

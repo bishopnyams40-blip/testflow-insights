@@ -218,13 +218,13 @@ export function useAdminTesters(filters: AdminTesterFilters, enabled: boolean) {
     enabled,
     queryFn: async () => {
       const { data, error } = await supabase.rpc("admin_list_testers", {
-        _search: filters.search || undefined,
-        _account_status: filters.accountStatus ?? undefined,
-        _availability: filters.availability ?? undefined,
-        _verification: filters.verification ?? undefined,
-        _experience: filters.experience ?? undefined,
-        _country: filters.country || undefined,
-        _platform: filters.platform ?? undefined,
+        ...(filters.search ? { _search: filters.search } : {}),
+        ...(filters.accountStatus ? { _account_status: filters.accountStatus } : {}),
+        ...(filters.availability ? { _availability: filters.availability } : {}),
+        ...(filters.verification ? { _verification: filters.verification } : {}),
+        ...(filters.experience ? { _experience: filters.experience } : {}),
+        ...(filters.country ? { _country: filters.country } : {}),
+        ...(filters.platform ? { _platform: filters.platform } : {}),
         _limit: filters.pageSize,
         _offset: (filters.page - 1) * filters.pageSize,
       });
@@ -295,7 +295,7 @@ export function useAdminTesterActions(testerId: string) {
       const { error } = await supabase.rpc("admin_set_tester_status", {
         _tester_id: testerId,
         _status: status,
-        _reason: reason ?? undefined,
+        ...(reason ? { _reason: reason } : {}),
       });
       if (error) throw error;
     },
@@ -326,7 +326,7 @@ export function useAdminTesterActions(testerId: string) {
       const { error } = await supabase.rpc("admin_review_device", {
         _device_id: deviceId,
         _status: status,
-        _reason: reason ?? undefined,
+        ...(reason ? { _reason: reason } : {}),
       });
       if (error) throw error;
     },
@@ -364,7 +364,7 @@ export function useAdminTesterActions(testerId: string) {
         _tester_id: testerId,
         _type: type,
         _status: status,
-        _reason: reason ?? undefined,
+        ...(reason ? { _reason: reason } : {}),
       });
       if (error) throw error;
     },

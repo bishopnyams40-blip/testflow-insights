@@ -285,7 +285,13 @@ export function useAdminTesterActions(testerId: string) {
   };
 
   const setStatus = useMutation({
-    mutationFn: async ({ status, reason }: { status: AccountStatus; reason?: string }) => {
+    mutationFn: async ({
+      status,
+      reason,
+    }: {
+      status: AccountStatus;
+      reason?: string | undefined;
+    }) => {
       const { error } = await supabase.rpc("admin_set_tester_status", {
         _tester_id: testerId,
         _status: status,

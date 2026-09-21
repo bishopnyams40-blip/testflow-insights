@@ -123,6 +123,75 @@ function AdminCampaignDetailPage() {
         <Detail label="Client notes" value={campaign.client_notes ?? "—"} />
       </section>
 
+      <section className="space-y-4 rounded-xl border bg-card p-6">
+        <h2 className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">
+          {definition.displayName} configuration
+        </h2>
+        <dl className="grid gap-4 sm:grid-cols-2">
+          {definition.fields.map((field) => (
+            <Detail
+              key={field.key}
+              label={field.label}
+              value={formatConfigValue(serviceConfig[field.key])}
+            />
+          ))}
+          <Detail
+            label="Service setup complete"
+            value={
+              serviceCompleteness.complete
+                ? "Yes"
+                : `No — missing ${serviceCompleteness.missing
+                    .map((k) => fieldLabel(campaign.service_type, k))
+                    .join(", ")}`
+            }
+          />
+        </dl>
+        <div className="grid gap-4 sm:grid-cols-2">
+          <div>
+            <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+              Evidence expected
+            </p>
+            <ul className="mt-1 text-sm">
+              {Object.entries(definition.evidenceTypes).map(([type, level]) => (
+                <li key={type}>
+                  {EVIDENCE_LABELS[type as EvidenceType]} — {level.toLowerCase()}
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div>
+            <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+              Pricing inputs (no amounts)
+            </p>
+            <ul className="mt-1 text-sm">
+              {Object.entries(pricingInputs).map(([key, value]) => (
+                <li key={key}>
+                  {key}: {formatConfigValue(value)}
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div>
+            <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+              Report sections
+            </p>
+            <p className="mt-1 text-sm">{definition.reportSectionKeys.join(", ")}</p>
+          </div>
+          <div>
+            <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+              Workflow flags
+            </p>
+            <p className="mt-1 text-sm">
+              {Object.entries(definition.workflowFlags)
+                .filter(([, on]) => on)
+                .map(([flag]) => flag)
+                .join(", ") || "None"}
+            </p>
+          </div>
+        </div>
+      </section>
+
+
       <section className="space-y-3 rounded-xl border bg-card p-6">
         <h2 className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">
           Tasks

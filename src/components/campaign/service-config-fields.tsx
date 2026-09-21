@@ -1,12 +1,12 @@
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Field, NativeSelect } from "@/components/campaign/campaign-form";
 import {
   getDefinition,
   type ServiceConfig,
   type ServiceConfigValue,
   type ServiceFieldSpec,
 } from "@/lib/service-engine";
+import { Label } from "@/components/ui/label";
 import type { ServiceType } from "@/lib/campaign";
 
 export function ServiceConfigFields({
@@ -110,5 +110,55 @@ function ConfigField({
       )}
       {field.help ? <p className="text-xs text-muted-foreground">{field.help}</p> : null}
     </Field>
+  );
+}
+
+function Field({
+  label,
+  htmlFor,
+  error,
+  children,
+}: {
+  label: string;
+  htmlFor: string;
+  error?: string | undefined;
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="space-y-1.5">
+      <Label htmlFor={htmlFor}>{label}</Label>
+      {children}
+      {error ? <p className="text-xs text-destructive">{error}</p> : null}
+    </div>
+  );
+}
+
+function NativeSelect({
+  id,
+  value,
+  onChange,
+  options,
+  placeholder,
+}: {
+  id?: string;
+  value: string;
+  onChange: (value: string) => void;
+  options: { value: string; label: string }[];
+  placeholder?: string;
+}) {
+  return (
+    <select
+      id={id}
+      className="h-10 w-full rounded-md border border-input bg-background px-3 text-sm"
+      value={value}
+      onChange={(e) => onChange(e.target.value)}
+    >
+      {placeholder ? <option value="">{placeholder}</option> : null}
+      {options.map((option) => (
+        <option key={option.value} value={option.value}>
+          {option.label}
+        </option>
+      ))}
+    </select>
   );
 }

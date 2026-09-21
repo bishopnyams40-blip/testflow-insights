@@ -38,7 +38,7 @@ export const TESTER_NAV: NavItem[] = [
 export const ADMIN_NAV: NavItem[] = [
   { label: "Operations", to: "/admin" },
   { label: "Tester network", to: "/admin/testers" },
-  { label: "Campaigns", to: "/campaigns" },
+  { label: "Campaigns", to: "/admin/campaigns" },
   { label: "Messages", to: "/messages" },
   { label: "Settings", to: "/settings" },
 ];

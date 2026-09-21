@@ -176,7 +176,11 @@ export function CampaignForm({
             />
           </Field>
         </div>
-        <Field label="Notes for the TestFlow team (optional)" error={errors.clientNotes} htmlFor="clientNotes">
+        <Field
+          label="Notes for the TestFlow team (optional)"
+          error={errors.clientNotes}
+          htmlFor="clientNotes"
+        >
           <Textarea
             id="clientNotes"
             rows={3}

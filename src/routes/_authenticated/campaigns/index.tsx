@@ -79,7 +79,10 @@ function CampaignsPage() {
         <>
           <div className="flex flex-wrap items-end gap-3 rounded-lg border bg-card p-4">
             <div className="min-w-[220px] flex-1">
-              <label className="text-xs font-medium text-muted-foreground" htmlFor="campaign-search">
+              <label
+                className="text-xs font-medium text-muted-foreground"
+                htmlFor="campaign-search"
+              >
                 Search by name
               </label>
               <div className="mt-1 flex gap-2">

@@ -91,7 +91,10 @@ function AdminCampaignsPage() {
 
       <div className="flex flex-wrap items-end gap-3 rounded-lg border bg-card p-4">
         <div className="min-w-[220px] flex-1">
-          <label className="text-xs font-medium text-muted-foreground" htmlFor="admin-campaign-search">
+          <label
+            className="text-xs font-medium text-muted-foreground"
+            htmlFor="admin-campaign-search"
+          >
             Search campaign or organisation
           </label>
           <div className="mt-1 flex gap-2">

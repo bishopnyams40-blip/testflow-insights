@@ -69,12 +69,12 @@ describe("campaignDraftSchema", () => {
   });
 
   it("rejects participant targets outside 1..1000", () => {
-    expect(
-      campaignDraftSchema.safeParse({ ...validDraft, participantTarget: 0 }).success,
-    ).toBe(false);
-    expect(
-      campaignDraftSchema.safeParse({ ...validDraft, participantTarget: 1001 }).success,
-    ).toBe(false);
+    expect(campaignDraftSchema.safeParse({ ...validDraft, participantTarget: 0 }).success).toBe(
+      false,
+    );
+    expect(campaignDraftSchema.safeParse({ ...validDraft, participantTarget: 1001 }).success).toBe(
+      false,
+    );
   });
 });
 
@@ -136,12 +136,26 @@ describe("calculateCoreCompleteness", () => {
 
   it("lists every missing field", () => {
     const result = calculateCoreCompleteness(
-      { ...baseCampaign(), name: "", objective: null, productType: null, deadline: null, participantTarget: 0 },
+      {
+        ...baseCampaign(),
+        name: "",
+        objective: null,
+        productType: null,
+        deadline: null,
+        participantTarget: 0,
+      },
       0,
     );
     expect(result.complete).toBe(false);
     expect(result.missing).toEqual(
-      expect.arrayContaining(["name", "objective", "product type", "deadline", "participant target", "tasks"]),
+      expect.arrayContaining([
+        "name",
+        "objective",
+        "product type",
+        "deadline",
+        "participant target",
+        "tasks",
+      ]),
     );
   });
 
@@ -163,7 +177,13 @@ describe("calculateCoreCompleteness", () => {
 describe("clientActionsFor", () => {
   it("drafts are fully editable", () => {
     const actions = clientActionsFor("DRAFT");
-    expect(actions).toEqual({ canEdit: true, canSubmit: true, canWithdraw: false, canCancel: true, canDelete: true });
+    expect(actions).toEqual({
+      canEdit: true,
+      canSubmit: true,
+      canWithdraw: false,
+      canCancel: true,
+      canDelete: true,
+    });
   });
 
   it("quoted campaigns can be withdrawn but not edited", () => {

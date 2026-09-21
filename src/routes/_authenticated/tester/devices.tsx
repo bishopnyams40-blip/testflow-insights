@@ -105,7 +105,9 @@ function TesterDevicesPage() {
                   </p>
                   <p className="mt-0.5 text-xs text-muted-foreground">
                     {titleCase(device.platform)} · {titleCase(device.device_type)}
-                    {device.os_version ? ` · ${device.operating_system ?? ""} ${device.os_version}` : ""}
+                    {device.os_version
+                      ? ` · ${device.operating_system ?? ""} ${device.os_version}`
+                      : ""}
                   </p>
                   {device.browser ? (
                     <p className="text-xs text-muted-foreground">
@@ -217,11 +219,7 @@ function Text(props: {
   return (
     <div>
       <Label htmlFor={props.id}>{props.label}</Label>
-      <Input
-        id={props.id}
-        value={props.value}
-        onChange={(e) => props.onChange(e.target.value)}
-      />
+      <Input id={props.id} value={props.value} onChange={(e) => props.onChange(e.target.value)} />
       {props.error ? <p className="mt-1 text-xs text-destructive">{props.error}</p> : null}
     </div>
   );

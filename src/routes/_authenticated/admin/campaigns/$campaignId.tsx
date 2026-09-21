@@ -18,6 +18,14 @@ import {
   STATUS_LABELS,
   type CampaignStatus,
 } from "@/lib/campaign";
+import {
+  EVIDENCE_LABELS,
+  fieldLabel,
+  formatConfigValue,
+  getDefinition,
+  getPricingInputs,
+  type EvidenceType,
+} from "@/lib/service-engine";
 import { toSafeError } from "@/lib/errors";
 
 export const Route = createFileRoute("/_authenticated/admin/campaigns/$campaignId")({
@@ -66,8 +74,16 @@ function AdminCampaignDetailPage() {
       />
     );
 
-  const { campaign, tasks, requirements, completeness } = data;
+  const { campaign, tasks, requirements, completeness, serviceConfig, serviceCompleteness } = data;
   const transitions = adminTransitionsFor(campaign.status);
+  const definition = getDefinition(campaign.service_type);
+  const pricingInputs = getPricingInputs({
+    serviceType: campaign.service_type,
+    participantTarget: campaign.participant_target,
+    taskCount: tasks.length,
+    requirementCount: requirements.length,
+    config: serviceConfig,
+  });
 
   return (
     <div className="space-y-6">

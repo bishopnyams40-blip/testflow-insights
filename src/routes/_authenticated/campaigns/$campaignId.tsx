@@ -222,7 +222,7 @@ function CampaignDetailPage() {
       <section className="flex flex-wrap gap-3 rounded-xl border bg-card p-6">
         {actions.canSubmit ? (
           <Button
-            disabled={!completeness.complete || lifecycle.submit.isPending}
+            disabled={!readyToSend || lifecycle.submit.isPending}
             onClick={() =>
               lifecycle.submit.mutate(undefined, {
                 onSuccess: () => toast.success("Sent to TestFlow for quoting"),

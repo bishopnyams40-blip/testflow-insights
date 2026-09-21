@@ -617,6 +617,21 @@ export type Database = {
         }
         Relationships: []
       }
+      p3a_out: {
+        Row: {
+          result: string | null
+          step: string | null
+        }
+        Insert: {
+          result?: string | null
+          step?: string | null
+        }
+        Update: {
+          result?: string | null
+          step?: string | null
+        }
+        Relationships: []
+      }
       payment_methods: {
         Row: {
           created_at: string

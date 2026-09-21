@@ -102,7 +102,6 @@ function CampaignDetailPage() {
     clientNotes: campaign.client_notes ?? undefined,
   };
 
-
   return (
     <div className="space-y-6">
       <header className="flex flex-wrap items-start justify-between gap-4">
@@ -142,13 +141,16 @@ function CampaignDetailPage() {
           pending={update.isPending}
           onCancel={() => setEditing(false)}
           onSubmit={(values, config) =>
-            update.mutate({ values, config }, {
-              onSuccess: () => {
-                toast.success("Campaign updated");
-                setEditing(false);
+            update.mutate(
+              { values, config },
+              {
+                onSuccess: () => {
+                  toast.success("Campaign updated");
+                  setEditing(false);
+                },
+                onError: (err) => toast.error(toSafeError(err).message),
               },
-              onError: (err) => toast.error(toSafeError(err).message),
-            })
+            )
           }
         />
       ) : (

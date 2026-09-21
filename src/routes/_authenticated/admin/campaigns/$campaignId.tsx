@@ -191,7 +191,6 @@ function AdminCampaignDetailPage() {
         </div>
       </section>
 
-
       <section className="space-y-3 rounded-xl border bg-card p-6">
         <h2 className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">
           Tasks

@@ -14,6 +14,13 @@ import {
   type CampaignTaskRow,
   type ServiceType,
 } from "@/lib/campaign";
+import {
+  pruneServiceConfig,
+  toServiceConfig,
+  validateServiceConfiguration,
+  type ServiceConfig,
+  type ServiceCompleteness,
+} from "@/lib/service-engine";
 
 /* ------------------------------ client list ------------------------------ */
 
@@ -64,6 +71,8 @@ export interface CampaignDetail {
   tasks: CampaignTaskRow[];
   requirements: CampaignRequirementRow[];
   completeness: { complete: boolean; missing: string[] };
+  serviceConfig: ServiceConfig;
+  serviceCompleteness: ServiceCompleteness;
 }
 
 export function useCampaign(campaignId: string) {
@@ -96,11 +105,27 @@ export function useCampaign(campaignId: string) {
       if (completeness.error) throw completeness.error;
 
       const raw = (completeness.data ?? {}) as { complete?: boolean; missing?: string[] };
+      const campaignRow = campaign as unknown as CampaignRow;
+      const taskRows = (tasks.data ?? []) as CampaignTaskRow[];
+      const serviceConfig = toServiceConfig(
+        (campaign as unknown as { service_config?: unknown }).service_config,
+      );
       return {
-        campaign: campaign as CampaignRow,
-        tasks: (tasks.data ?? []) as CampaignTaskRow[],
+        campaign: campaignRow,
+        tasks: taskRows,
         requirements: (requirements.data ?? []) as CampaignRequirementRow[],
         completeness: { complete: Boolean(raw.complete), missing: raw.missing ?? [] },
+        serviceConfig,
+        serviceCompleteness: validateServiceConfiguration(
+          campaignRow.service_type,
+          serviceConfig,
+          {
+            taskCount: taskRows.length,
+            tasksMissingSuccessCriteria: taskRows.filter(
+              (t) => !t.success_criteria || t.success_criteria.trim() === "",
+            ).length,
+          },
+        ),
       };
     },
   });
@@ -116,8 +141,9 @@ function useRefreshCampaign(campaignId?: string) {
   };
 }
 
-function toCampaignColumns(values: CampaignFormValues) {
+function toCampaignColumns(values: CampaignFormValues, config: ServiceConfig) {
   return {
+    service_config: pruneServiceConfig(values.serviceType, config),
     name: values.name,
     service_type: values.serviceType,
     product_type: values.productType,
@@ -139,17 +165,17 @@ export function useCreateCampaign(
 ) {
   const refresh = useRefreshCampaign();
   return useMutation({
-    mutationFn: async (input: CampaignFormValues) => {
+    mutationFn: async (input: { values: CampaignFormValues; config: ServiceConfig }) => {
       if (!organizationId) throw new Error("Select an organisation first");
       if (!userId) throw new Error("You must be signed in");
-      const values = campaignDraftSchema.parse(input);
+      const values = campaignDraftSchema.parse(input.values);
       const { data, error } = await supabase
         .from("campaigns")
         .insert({
           organization_id: organizationId,
           created_by: userId,
-          ...toCampaignColumns(values),
-        })
+          ...toCampaignColumns(values, input.config),
+        } as never)
         .select("id")
         .single();
       if (error) throw error;
@@ -162,11 +188,11 @@ export function useCreateCampaign(
 export function useUpdateCampaign(campaignId: string) {
   const refresh = useRefreshCampaign(campaignId);
   return useMutation({
-    mutationFn: async (input: CampaignFormValues) => {
-      const values = campaignDraftSchema.parse(input);
+    mutationFn: async (input: { values: CampaignFormValues; config: ServiceConfig }) => {
+      const values = campaignDraftSchema.parse(input.values);
       const { error } = await supabase
         .from("campaigns")
-        .update(toCampaignColumns(values))
+        .update(toCampaignColumns(values, input.config) as never)
         .eq("id", campaignId);
       if (error) throw error;
     },

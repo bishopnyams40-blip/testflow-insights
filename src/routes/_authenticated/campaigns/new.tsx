@@ -1,10 +1,15 @@
+import { useState } from "react";
 import { createFileRoute, Navigate, useNavigate } from "@tanstack/react-router";
 import { toast } from "sonner";
+import { Button } from "@/components/ui/button";
 import { LoadingState, EmptyState } from "@/components/states";
 import { CampaignForm, EMPTY_CAMPAIGN_FORM } from "@/components/campaign/campaign-form";
+import { ServicePicker } from "@/components/campaign/service-picker";
 import { useSession } from "@/hooks/useSession";
 import { useCreateCampaign } from "@/hooks/useCampaigns";
 import { toSafeError } from "@/lib/errors";
+import type { ServiceType } from "@/lib/campaign";
+import { getDefinition } from "@/lib/service-engine";
 
 export const Route = createFileRoute("/_authenticated/campaigns/new")({
   head: () => ({
@@ -12,12 +17,12 @@ export const Route = createFileRoute("/_authenticated/campaigns/new")({
       { title: "New campaign — TestFlow" },
       {
         name: "description",
-        content: "Describe your product and objective, and TestFlow will run the testing round.",
+        content: "Choose a testing service and TestFlow will run the round for you.",
       },
       { property: "og:title", content: "New campaign — TestFlow" },
       {
         property: "og:description",
-        content: "Describe your product and objective, and TestFlow will run the testing round.",
+        content: "Choose a testing service and TestFlow will run the round for you.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
@@ -29,6 +34,7 @@ export const Route = createFileRoute("/_authenticated/campaigns/new")({
 function NewCampaignPage() {
   const { data: session, isPending } = useSession();
   const navigate = useNavigate();
+  const [service, setService] = useState<ServiceType | null>(null);
   const organizationId = session?.activeOrganizationId ?? null;
   const create = useCreateCampaign(organizationId, session?.userId);
 
@@ -42,27 +48,50 @@ function NewCampaignPage() {
       />
     );
 
+  if (!service)
+    return (
+      <div className="mx-auto max-w-3xl space-y-6">
+        <header>
+          <h1 className="text-2xl font-semibold">What do you need?</h1>
+          <p className="mt-1 text-sm text-muted-foreground">
+            Pick a service and TestFlow will only ask for what that service needs.
+          </p>
+        </header>
+        <ServicePicker value={service} onSelect={setService} />
+      </div>
+    );
+
+  const definition = getDefinition(service);
+
   return (
     <div className="mx-auto max-w-3xl space-y-6">
       <header>
-        <h1 className="text-2xl font-semibold">New campaign</h1>
+        <Button variant="ghost" size="sm" className="-ml-2" onClick={() => setService(null)}>
+          ← Change service
+        </Button>
+        <h1 className="mt-2 text-2xl font-semibold">{definition.displayName}</h1>
         <p className="mt-1 text-sm text-muted-foreground">
-          This saves as a draft. You can add tasks and requirements before sending it to TestFlow.
+          {definition.shortDescription} This saves as a draft — you can keep editing before sending
+          it to TestFlow.
         </p>
       </header>
       <CampaignForm
-        initial={EMPTY_CAMPAIGN_FORM}
+        initial={{ ...EMPTY_CAMPAIGN_FORM, serviceType: service }}
         submitLabel="Save draft"
         pending={create.isPending}
+        lockService
         onCancel={() => void navigate({ to: "/campaigns" })}
-        onSubmit={(values) =>
-          create.mutate(values, {
-            onSuccess: (id) => {
-              toast.success("Draft campaign created");
-              void navigate({ to: "/campaigns/$campaignId", params: { campaignId: id } });
+        onSubmit={(values, config) =>
+          create.mutate(
+            { values, config },
+            {
+              onSuccess: (id) => {
+                toast.success("Draft campaign created");
+                void navigate({ to: "/campaigns/$campaignId", params: { campaignId: id } });
+              },
+              onError: (err) => toast.error(toSafeError(err).message),
             },
-            onError: (err) => toast.error(toSafeError(err).message),
-          })
+          )
         }
       />
     </div>

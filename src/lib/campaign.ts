@@ -239,7 +239,12 @@ export const campaignTaskSchema = z.object({
   successCriteria: optionalText(1000),
   maxDuration: z.preprocess(
     (v) => (v === "" || v == null ? null : Number(v)),
-    z.number().int("Whole minutes only").min(1, "At least 1 minute").max(600, "At most 600 minutes").nullable(),
+    z
+      .number()
+      .int("Whole minutes only")
+      .min(1, "At least 1 minute")
+      .max(600, "At most 600 minutes")
+      .nullable(),
   ),
   required: z.boolean(),
 });

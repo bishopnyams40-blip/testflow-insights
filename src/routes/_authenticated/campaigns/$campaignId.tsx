@@ -105,7 +105,9 @@ function CampaignDetailPage() {
           <h1 className="mt-2 text-2xl font-semibold">{campaign.name}</h1>
           <p className="mt-1 text-sm text-muted-foreground">
             {SERVICE_LABELS[campaign.service_type]} ·{" "}
-            {campaign.product_type ? PRODUCT_TYPE_LABELS[campaign.product_type] : "Product type not set"}
+            {campaign.product_type
+              ? PRODUCT_TYPE_LABELS[campaign.product_type]
+              : "Product type not set"}
           </p>
         </div>
         <Badge variant="secondary">{STATUS_LABELS[campaign.status]}</Badge>
@@ -154,14 +156,13 @@ function CampaignDetailPage() {
               label="Deadline"
               value={campaign.deadline ? new Date(campaign.deadline).toLocaleDateString() : "—"}
             />
-            <Detail
-              label="Sign-in needed"
-              value={campaign.login_required ? "Yes" : "No"}
-            />
+            <Detail label="Sign-in needed" value={campaign.login_required ? "Yes" : "No"} />
             <Detail label="Objective" value={campaign.objective ?? "—"} />
           </dl>
           {campaign.description ? (
-            <p className="whitespace-pre-line text-sm text-muted-foreground">{campaign.description}</p>
+            <p className="whitespace-pre-line text-sm text-muted-foreground">
+              {campaign.description}
+            </p>
           ) : null}
           {campaign.cancellation_reason ? (
             <p className="text-sm text-destructive">Cancelled: {campaign.cancellation_reason}</p>
@@ -297,7 +298,19 @@ function TasksSection({
   editable,
 }: {
   campaignId: string;
-  tasks: { id: string; title: string; instructions: string | null; sequence: number; required: boolean; description: string | null; success_criteria: string | null; max_duration: number | null; campaign_id: string; created_at: string; updated_at: string }[];
+  tasks: {
+    id: string;
+    title: string;
+    instructions: string | null;
+    sequence: number;
+    required: boolean;
+    description: string | null;
+    success_criteria: string | null;
+    max_duration: number | null;
+    campaign_id: string;
+    created_at: string;
+    updated_at: string;
+  }[];
   editable: boolean;
 }) {
   const { addTask, deleteTask, moveTask } = useCampaignTaskActions(campaignId);
@@ -380,7 +393,9 @@ function TasksSection({
               id="task-instructions"
               rows={3}
               value={draft.instructions ?? ""}
-              onChange={(e) => setDraft((p) => ({ ...p, instructions: e.target.value || undefined }))}
+              onChange={(e) =>
+                setDraft((p) => ({ ...p, instructions: e.target.value || undefined }))
+              }
             />
           </Field>
           <Field label="Time limit in minutes (optional)" htmlFor="task-duration">
@@ -434,7 +449,13 @@ function RequirementsSection({
   editable,
 }: {
   campaignId: string;
-  requirements: { id: string; requirement_type: string; operator: RequirementOperator; value: unknown; required: boolean }[];
+  requirements: {
+    id: string;
+    requirement_type: string;
+    operator: RequirementOperator;
+    value: unknown;
+    required: boolean;
+  }[];
   editable: boolean;
 }) {
   const { addRequirement, deleteRequirement } = useCampaignRequirementActions(campaignId);
@@ -453,7 +474,10 @@ function RequirementsSection({
       ) : (
         <ul className="space-y-2">
           {requirements.map((req) => (
-            <li key={req.id} className="flex items-center justify-between rounded-lg border p-3 text-sm">
+            <li
+              key={req.id}
+              className="flex items-center justify-between rounded-lg border p-3 text-sm"
+            >
               <span>
                 {req.requirement_type.replaceAll("_", " ").toLowerCase()}{" "}
                 {OPERATOR_LABELS[req.operator]} {formatRequirementValue(req.value)}

@@ -33,7 +33,10 @@ export const DEFAULT_CAMPAIGN_FILTERS: CampaignListFilters = {
   pageSize: 10,
 };
 
-export function useCampaigns(organizationId: string | null | undefined, filters: CampaignListFilters) {
+export function useCampaigns(
+  organizationId: string | null | undefined,
+  filters: CampaignListFilters,
+) {
   return useQuery({
     queryKey: ["campaigns", organizationId, filters],
     enabled: Boolean(organizationId),
@@ -130,7 +133,10 @@ function toCampaignColumns(values: CampaignFormValues) {
   };
 }
 
-export function useCreateCampaign(organizationId: string | null | undefined, userId: string | undefined) {
+export function useCreateCampaign(
+  organizationId: string | null | undefined,
+  userId: string | undefined,
+) {
   const refresh = useRefreshCampaign();
   return useMutation({
     mutationFn: async (input: CampaignFormValues) => {
@@ -200,7 +206,15 @@ export function useCampaignTaskActions(campaignId: string) {
   });
 
   const moveTask = useMutation({
-    mutationFn: async ({ tasks, from, to }: { tasks: CampaignTaskRow[]; from: number; to: number }) => {
+    mutationFn: async ({
+      tasks,
+      from,
+      to,
+    }: {
+      tasks: CampaignTaskRow[];
+      from: number;
+      to: number;
+    }) => {
       if (to < 0 || to >= tasks.length) return;
       const reordered = [...tasks];
       const moved = reordered.splice(from, 1)[0];
@@ -252,7 +266,10 @@ export function useCampaignRequirementActions(campaignId: string) {
 
   const deleteRequirement = useMutation({
     mutationFn: async (requirementId: string) => {
-      const { error } = await supabase.from("campaign_requirements").delete().eq("id", requirementId);
+      const { error } = await supabase
+        .from("campaign_requirements")
+        .delete()
+        .eq("id", requirementId);
       if (error) throw error;
     },
     onSuccess: refresh,
@@ -276,7 +293,9 @@ export function useCampaignLifecycle(campaignId: string) {
 
   const withdraw = useMutation({
     mutationFn: async () => {
-      const { error } = await supabase.rpc("campaign_withdraw_to_draft", { _campaign_id: campaignId });
+      const { error } = await supabase.rpc("campaign_withdraw_to_draft", {
+        _campaign_id: campaignId,
+      });
       if (error) throw error;
     },
     onSuccess: refresh,

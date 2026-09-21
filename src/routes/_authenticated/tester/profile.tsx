@@ -115,8 +115,8 @@ function TesterProfilePage() {
         <div>
           <h1 className="text-2xl font-semibold">Tester profile</h1>
           <p className="mt-1 text-sm text-muted-foreground">
-            TestFlow uses this information to decide which work suits you. Scores and account
-            status are set by TestFlow.
+            TestFlow uses this information to decide which work suits you. Scores and account status
+            are set by TestFlow.
           </p>
         </div>
         <div className="flex gap-2">

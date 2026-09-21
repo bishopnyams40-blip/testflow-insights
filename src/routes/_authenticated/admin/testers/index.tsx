@@ -104,19 +104,25 @@ function AdminTestersPage() {
           label="Account status"
           value={filters.accountStatus ?? ""}
           options={["PENDING", "ACTIVE", "SUSPENDED", "DEACTIVATED"]}
-          onChange={(v) => update({ accountStatus: (v || null) as AdminTesterFilters["accountStatus"] })}
+          onChange={(v) =>
+            update({ accountStatus: (v || null) as AdminTesterFilters["accountStatus"] })
+          }
         />
         <Filter
           label="Availability"
           value={filters.availability ?? ""}
           options={AVAILABILITY_OPTIONS.map((o) => o.value)}
-          onChange={(v) => update({ availability: (v || null) as AdminTesterFilters["availability"] })}
+          onChange={(v) =>
+            update({ availability: (v || null) as AdminTesterFilters["availability"] })
+          }
         />
         <Filter
           label="Verification"
           value={filters.verification ?? ""}
           options={["NOT_STARTED", "PENDING", "VERIFIED", "REJECTED", "EXPIRED"]}
-          onChange={(v) => update({ verification: (v || null) as AdminTesterFilters["verification"] })}
+          onChange={(v) =>
+            update({ verification: (v || null) as AdminTesterFilters["verification"] })
+          }
         />
         <Filter
           label="Experience"

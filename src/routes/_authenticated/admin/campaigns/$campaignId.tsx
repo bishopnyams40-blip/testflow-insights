@@ -24,7 +24,10 @@ export const Route = createFileRoute("/_authenticated/admin/campaigns/$campaignI
   head: () => ({
     meta: [
       { title: "Campaign review — TestFlow admin" },
-      { name: "description", content: "Full campaign brief, tasks and requirements for operations." },
+      {
+        name: "description",
+        content: "Full campaign brief, tasks and requirements for operations.",
+      },
       { property: "og:title", content: "Campaign review — TestFlow admin" },
       {
         property: "og:description",
@@ -76,7 +79,9 @@ function AdminCampaignDetailPage() {
           <h1 className="mt-2 text-2xl font-semibold">{campaign.name}</h1>
           <p className="mt-1 text-sm text-muted-foreground">
             {SERVICE_LABELS[campaign.service_type]} ·{" "}
-            {campaign.product_type ? PRODUCT_TYPE_LABELS[campaign.product_type] : "Product type not set"}
+            {campaign.product_type
+              ? PRODUCT_TYPE_LABELS[campaign.product_type]
+              : "Product type not set"}
           </p>
         </div>
         <Badge variant="secondary">{STATUS_LABELS[campaign.status]}</Badge>
@@ -103,7 +108,9 @@ function AdminCampaignDetailPage() {
       </section>
 
       <section className="space-y-3 rounded-xl border bg-card p-6">
-        <h2 className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">Tasks</h2>
+        <h2 className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">
+          Tasks
+        </h2>
         {tasks.length === 0 ? (
           <p className="text-sm text-muted-foreground">No tasks defined.</p>
         ) : (
@@ -114,7 +121,9 @@ function AdminCampaignDetailPage() {
                   {index + 1}. {task.title}
                 </p>
                 {task.instructions ? (
-                  <p className="mt-1 whitespace-pre-line text-muted-foreground">{task.instructions}</p>
+                  <p className="mt-1 whitespace-pre-line text-muted-foreground">
+                    {task.instructions}
+                  </p>
                 ) : null}
               </li>
             ))}

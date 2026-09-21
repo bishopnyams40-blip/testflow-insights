@@ -13,7 +13,6 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
-import { Route as AuthenticatedCampaignsRouteImport } from './routes/_authenticated/campaigns'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as AuthenticatedMessagesRouteImport } from './routes/_authenticated/messages'
 import { Route as AuthenticatedPaymentsRouteImport } from './routes/_authenticated/payments'
@@ -23,6 +22,9 @@ import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticat
 import { Route as AuthenticatedTeamRouteImport } from './routes/_authenticated/team'
 import { Route as AuthenticatedTestersRouteImport } from './routes/_authenticated/testers'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin/index'
+import { Route as AuthenticatedCampaignsIndexRouteImport } from './routes/_authenticated/campaigns/index'
+import { Route as AuthenticatedCampaignsCampaignIdRouteImport } from './routes/_authenticated/campaigns/$campaignId'
+import { Route as AuthenticatedCampaignsNewRouteImport } from './routes/_authenticated/campaigns/new'
 import { Route as AuthenticatedTesterIndexRouteImport } from './routes/_authenticated/tester/index'
 import { Route as AuthenticatedTesterAssignmentsRouteImport } from './routes/_authenticated/tester/assignments'
 import { Route as AuthenticatedTesterCompletedRouteImport } from './routes/_authenticated/tester/completed'
@@ -33,6 +35,8 @@ import { Route as AuthenticatedTesterRequestedRouteImport } from './routes/_auth
 import { Route as AuthenticatedTesterRewardsRouteImport } from './routes/_authenticated/tester/rewards'
 import { Route as AuthenticatedTesterSupportRouteImport } from './routes/_authenticated/tester/support'
 import { Route as AuthenticatedTesterVerificationRouteImport } from './routes/_authenticated/tester/verification'
+import { Route as AuthenticatedAdminCampaignsIndexRouteImport } from './routes/_authenticated/admin/campaigns/index'
+import { Route as AuthenticatedAdminCampaignsCampaignIdRouteImport } from './routes/_authenticated/admin/campaigns/$campaignId'
 import { Route as AuthenticatedAdminTestersIndexRouteImport } from './routes/_authenticated/admin/testers/index'
 import { Route as AuthenticatedAdminTestersTesterIdRouteImport } from './routes/_authenticated/admin/testers/$testerId'
 
@@ -54,11 +58,6 @@ const ResetPasswordRoute = ResetPasswordRouteImport.update({
   id: '/reset-password',
   path: '/reset-password',
   getParentRoute: () => rootRouteImport,
-} as any)
-const AuthenticatedCampaignsRoute = AuthenticatedCampaignsRouteImport.update({
-  id: '/campaigns',
-  path: '/campaigns',
-  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
   id: '/dashboard',
@@ -105,6 +104,24 @@ const AuthenticatedAdminIndexRoute = AuthenticatedAdminIndexRouteImport.update({
   path: '/admin/',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedCampaignsIndexRoute =
+  AuthenticatedCampaignsIndexRouteImport.update({
+    id: '/campaigns/',
+    path: '/campaigns/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedCampaignsCampaignIdRoute =
+  AuthenticatedCampaignsCampaignIdRouteImport.update({
+    id: '/campaigns/$campaignId',
+    path: '/campaigns/$campaignId',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedCampaignsNewRoute =
+  AuthenticatedCampaignsNewRouteImport.update({
+    id: '/campaigns/new',
+    path: '/campaigns/new',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedTesterIndexRoute =
   AuthenticatedTesterIndexRouteImport.update({
     id: '/tester/',
@@ -164,6 +181,18 @@ const AuthenticatedTesterVerificationRoute =
     path: '/tester/verification',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedAdminCampaignsIndexRoute =
+  AuthenticatedAdminCampaignsIndexRouteImport.update({
+    id: '/admin/campaigns/',
+    path: '/admin/campaigns/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAdminCampaignsCampaignIdRoute =
+  AuthenticatedAdminCampaignsCampaignIdRouteImport.update({
+    id: '/admin/campaigns/$campaignId',
+    path: '/admin/campaigns/$campaignId',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedAdminTestersIndexRoute =
   AuthenticatedAdminTestersIndexRouteImport.update({
     id: '/admin/testers/',
@@ -181,7 +210,6 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/reset-password': typeof ResetPasswordRoute
-  '/campaigns': typeof AuthenticatedCampaignsRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/messages': typeof AuthenticatedMessagesRoute
   '/payments': typeof AuthenticatedPaymentsRoute
@@ -190,6 +218,8 @@ export interface FileRoutesByFullPath {
   '/settings': typeof AuthenticatedSettingsRoute
   '/team': typeof AuthenticatedTeamRoute
   '/testers': typeof AuthenticatedTestersRoute
+  '/campaigns/$campaignId': typeof AuthenticatedCampaignsCampaignIdRoute
+  '/campaigns/new': typeof AuthenticatedCampaignsNewRoute
   '/tester/assignments': typeof AuthenticatedTesterAssignmentsRoute
   '/tester/completed': typeof AuthenticatedTesterCompletedRoute
   '/tester/devices': typeof AuthenticatedTesterDevicesRoute
@@ -200,15 +230,17 @@ export interface FileRoutesByFullPath {
   '/tester/support': typeof AuthenticatedTesterSupportRoute
   '/tester/verification': typeof AuthenticatedTesterVerificationRoute
   '/admin/': typeof AuthenticatedAdminIndexRoute
+  '/campaigns/': typeof AuthenticatedCampaignsIndexRoute
   '/tester/': typeof AuthenticatedTesterIndexRoute
+  '/admin/campaigns/$campaignId': typeof AuthenticatedAdminCampaignsCampaignIdRoute
   '/admin/testers/$testerId': typeof AuthenticatedAdminTestersTesterIdRoute
+  '/admin/campaigns/': typeof AuthenticatedAdminCampaignsIndexRoute
   '/admin/testers/': typeof AuthenticatedAdminTestersIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/reset-password': typeof ResetPasswordRoute
-  '/campaigns': typeof AuthenticatedCampaignsRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/messages': typeof AuthenticatedMessagesRoute
   '/payments': typeof AuthenticatedPaymentsRoute
@@ -217,6 +249,8 @@ export interface FileRoutesByTo {
   '/settings': typeof AuthenticatedSettingsRoute
   '/team': typeof AuthenticatedTeamRoute
   '/testers': typeof AuthenticatedTestersRoute
+  '/campaigns/$campaignId': typeof AuthenticatedCampaignsCampaignIdRoute
+  '/campaigns/new': typeof AuthenticatedCampaignsNewRoute
   '/tester/assignments': typeof AuthenticatedTesterAssignmentsRoute
   '/tester/completed': typeof AuthenticatedTesterCompletedRoute
   '/tester/devices': typeof AuthenticatedTesterDevicesRoute
@@ -227,8 +261,11 @@ export interface FileRoutesByTo {
   '/tester/support': typeof AuthenticatedTesterSupportRoute
   '/tester/verification': typeof AuthenticatedTesterVerificationRoute
   '/admin': typeof AuthenticatedAdminIndexRoute
+  '/campaigns': typeof AuthenticatedCampaignsIndexRoute
   '/tester': typeof AuthenticatedTesterIndexRoute
+  '/admin/campaigns/$campaignId': typeof AuthenticatedAdminCampaignsCampaignIdRoute
   '/admin/testers/$testerId': typeof AuthenticatedAdminTestersTesterIdRoute
+  '/admin/campaigns': typeof AuthenticatedAdminCampaignsIndexRoute
   '/admin/testers': typeof AuthenticatedAdminTestersIndexRoute
 }
 export interface FileRoutesById {
@@ -237,7 +274,6 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
   '/reset-password': typeof ResetPasswordRoute
-  '/_authenticated/campaigns': typeof AuthenticatedCampaignsRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/_authenticated/messages': typeof AuthenticatedMessagesRoute
   '/_authenticated/payments': typeof AuthenticatedPaymentsRoute
@@ -246,6 +282,8 @@ export interface FileRoutesById {
   '/_authenticated/settings': typeof AuthenticatedSettingsRoute
   '/_authenticated/team': typeof AuthenticatedTeamRoute
   '/_authenticated/testers': typeof AuthenticatedTestersRoute
+  '/_authenticated/campaigns/$campaignId': typeof AuthenticatedCampaignsCampaignIdRoute
+  '/_authenticated/campaigns/new': typeof AuthenticatedCampaignsNewRoute
   '/_authenticated/tester/assignments': typeof AuthenticatedTesterAssignmentsRoute
   '/_authenticated/tester/completed': typeof AuthenticatedTesterCompletedRoute
   '/_authenticated/tester/devices': typeof AuthenticatedTesterDevicesRoute
@@ -256,8 +294,11 @@ export interface FileRoutesById {
   '/_authenticated/tester/support': typeof AuthenticatedTesterSupportRoute
   '/_authenticated/tester/verification': typeof AuthenticatedTesterVerificationRoute
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
+  '/_authenticated/campaigns/': typeof AuthenticatedCampaignsIndexRoute
   '/_authenticated/tester/': typeof AuthenticatedTesterIndexRoute
+  '/_authenticated/admin/campaigns/$campaignId': typeof AuthenticatedAdminCampaignsCampaignIdRoute
   '/_authenticated/admin/testers/$testerId': typeof AuthenticatedAdminTestersTesterIdRoute
+  '/_authenticated/admin/campaigns/': typeof AuthenticatedAdminCampaignsIndexRoute
   '/_authenticated/admin/testers/': typeof AuthenticatedAdminTestersIndexRoute
 }
 export interface FileRouteTypes {
@@ -266,7 +307,6 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/reset-password'
-    | '/campaigns'
     | '/dashboard'
     | '/messages'
     | '/payments'
@@ -275,6 +315,8 @@ export interface FileRouteTypes {
     | '/settings'
     | '/team'
     | '/testers'
+    | '/campaigns/$campaignId'
+    | '/campaigns/new'
     | '/tester/assignments'
     | '/tester/completed'
     | '/tester/devices'
@@ -285,15 +327,17 @@ export interface FileRouteTypes {
     | '/tester/support'
     | '/tester/verification'
     | '/admin/'
+    | '/campaigns/'
     | '/tester/'
+    | '/admin/campaigns/$campaignId'
     | '/admin/testers/$testerId'
+    | '/admin/campaigns/'
     | '/admin/testers/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/auth'
     | '/reset-password'
-    | '/campaigns'
     | '/dashboard'
     | '/messages'
     | '/payments'
@@ -302,6 +346,8 @@ export interface FileRouteTypes {
     | '/settings'
     | '/team'
     | '/testers'
+    | '/campaigns/$campaignId'
+    | '/campaigns/new'
     | '/tester/assignments'
     | '/tester/completed'
     | '/tester/devices'
@@ -312,8 +358,11 @@ export interface FileRouteTypes {
     | '/tester/support'
     | '/tester/verification'
     | '/admin'
+    | '/campaigns'
     | '/tester'
+    | '/admin/campaigns/$campaignId'
     | '/admin/testers/$testerId'
+    | '/admin/campaigns'
     | '/admin/testers'
   id:
     | '__root__'
@@ -321,7 +370,6 @@ export interface FileRouteTypes {
     | '/_authenticated'
     | '/auth'
     | '/reset-password'
-    | '/_authenticated/campaigns'
     | '/_authenticated/dashboard'
     | '/_authenticated/messages'
     | '/_authenticated/payments'
@@ -330,6 +378,8 @@ export interface FileRouteTypes {
     | '/_authenticated/settings'
     | '/_authenticated/team'
     | '/_authenticated/testers'
+    | '/_authenticated/campaigns/$campaignId'
+    | '/_authenticated/campaigns/new'
     | '/_authenticated/tester/assignments'
     | '/_authenticated/tester/completed'
     | '/_authenticated/tester/devices'
@@ -340,8 +390,11 @@ export interface FileRouteTypes {
     | '/_authenticated/tester/support'
     | '/_authenticated/tester/verification'
     | '/_authenticated/admin/'
+    | '/_authenticated/campaigns/'
     | '/_authenticated/tester/'
+    | '/_authenticated/admin/campaigns/$campaignId'
     | '/_authenticated/admin/testers/$testerId'
+    | '/_authenticated/admin/campaigns/'
     | '/_authenticated/admin/testers/'
   fileRoutesById: FileRoutesById
 }
@@ -381,13 +434,6 @@ declare module '@tanstack/react-router' {
       fullPath: '/reset-password'
       preLoaderRoute: typeof ResetPasswordRouteImport
       parentRoute: typeof rootRouteImport
-    }
-    '/_authenticated/campaigns': {
-      id: '/_authenticated/campaigns'
-      path: '/campaigns'
-      fullPath: '/campaigns'
-      preLoaderRoute: typeof AuthenticatedCampaignsRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/dashboard': {
       id: '/_authenticated/dashboard'
@@ -450,6 +496,27 @@ declare module '@tanstack/react-router' {
       path: '/admin'
       fullPath: '/admin/'
       preLoaderRoute: typeof AuthenticatedAdminIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/campaigns/': {
+      id: '/_authenticated/campaigns/'
+      path: '/campaigns'
+      fullPath: '/campaigns/'
+      preLoaderRoute: typeof AuthenticatedCampaignsIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/campaigns/$campaignId': {
+      id: '/_authenticated/campaigns/$campaignId'
+      path: '/campaigns/$campaignId'
+      fullPath: '/campaigns/$campaignId'
+      preLoaderRoute: typeof AuthenticatedCampaignsCampaignIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/campaigns/new': {
+      id: '/_authenticated/campaigns/new'
+      path: '/campaigns/new'
+      fullPath: '/campaigns/new'
+      preLoaderRoute: typeof AuthenticatedCampaignsNewRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/tester/': {
@@ -522,6 +589,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedTesterVerificationRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/admin/campaigns/': {
+      id: '/_authenticated/admin/campaigns/'
+      path: '/admin/campaigns'
+      fullPath: '/admin/campaigns/'
+      preLoaderRoute: typeof AuthenticatedAdminCampaignsIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/campaigns/$campaignId': {
+      id: '/_authenticated/admin/campaigns/$campaignId'
+      path: '/admin/campaigns/$campaignId'
+      fullPath: '/admin/campaigns/$campaignId'
+      preLoaderRoute: typeof AuthenticatedAdminCampaignsCampaignIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/admin/testers/': {
       id: '/_authenticated/admin/testers/'
       path: '/admin/testers'
@@ -540,7 +621,6 @@ declare module '@tanstack/react-router' {
 }
 
 interface AuthenticatedRouteRouteChildren {
-  AuthenticatedCampaignsRoute: typeof AuthenticatedCampaignsRoute
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
   AuthenticatedMessagesRoute: typeof AuthenticatedMessagesRoute
   AuthenticatedPaymentsRoute: typeof AuthenticatedPaymentsRoute
@@ -549,6 +629,8 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedSettingsRoute: typeof AuthenticatedSettingsRoute
   AuthenticatedTeamRoute: typeof AuthenticatedTeamRoute
   AuthenticatedTestersRoute: typeof AuthenticatedTestersRoute
+  AuthenticatedCampaignsCampaignIdRoute: typeof AuthenticatedCampaignsCampaignIdRoute
+  AuthenticatedCampaignsNewRoute: typeof AuthenticatedCampaignsNewRoute
   AuthenticatedTesterAssignmentsRoute: typeof AuthenticatedTesterAssignmentsRoute
   AuthenticatedTesterCompletedRoute: typeof AuthenticatedTesterCompletedRoute
   AuthenticatedTesterDevicesRoute: typeof AuthenticatedTesterDevicesRoute
@@ -559,13 +641,15 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedTesterSupportRoute: typeof AuthenticatedTesterSupportRoute
   AuthenticatedTesterVerificationRoute: typeof AuthenticatedTesterVerificationRoute
   AuthenticatedAdminIndexRoute: typeof AuthenticatedAdminIndexRoute
+  AuthenticatedCampaignsIndexRoute: typeof AuthenticatedCampaignsIndexRoute
   AuthenticatedTesterIndexRoute: typeof AuthenticatedTesterIndexRoute
+  AuthenticatedAdminCampaignsCampaignIdRoute: typeof AuthenticatedAdminCampaignsCampaignIdRoute
   AuthenticatedAdminTestersTesterIdRoute: typeof AuthenticatedAdminTestersTesterIdRoute
+  AuthenticatedAdminCampaignsIndexRoute: typeof AuthenticatedAdminCampaignsIndexRoute
   AuthenticatedAdminTestersIndexRoute: typeof AuthenticatedAdminTestersIndexRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
-  AuthenticatedCampaignsRoute: AuthenticatedCampaignsRoute,
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
   AuthenticatedMessagesRoute: AuthenticatedMessagesRoute,
   AuthenticatedPaymentsRoute: AuthenticatedPaymentsRoute,
@@ -574,6 +658,8 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedSettingsRoute: AuthenticatedSettingsRoute,
   AuthenticatedTeamRoute: AuthenticatedTeamRoute,
   AuthenticatedTestersRoute: AuthenticatedTestersRoute,
+  AuthenticatedCampaignsCampaignIdRoute: AuthenticatedCampaignsCampaignIdRoute,
+  AuthenticatedCampaignsNewRoute: AuthenticatedCampaignsNewRoute,
   AuthenticatedTesterAssignmentsRoute: AuthenticatedTesterAssignmentsRoute,
   AuthenticatedTesterCompletedRoute: AuthenticatedTesterCompletedRoute,
   AuthenticatedTesterDevicesRoute: AuthenticatedTesterDevicesRoute,
@@ -584,9 +670,13 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedTesterSupportRoute: AuthenticatedTesterSupportRoute,
   AuthenticatedTesterVerificationRoute: AuthenticatedTesterVerificationRoute,
   AuthenticatedAdminIndexRoute: AuthenticatedAdminIndexRoute,
+  AuthenticatedCampaignsIndexRoute: AuthenticatedCampaignsIndexRoute,
   AuthenticatedTesterIndexRoute: AuthenticatedTesterIndexRoute,
+  AuthenticatedAdminCampaignsCampaignIdRoute:
+    AuthenticatedAdminCampaignsCampaignIdRoute,
   AuthenticatedAdminTestersTesterIdRoute:
     AuthenticatedAdminTestersTesterIdRoute,
+  AuthenticatedAdminCampaignsIndexRoute: AuthenticatedAdminCampaignsIndexRoute,
   AuthenticatedAdminTestersIndexRoute: AuthenticatedAdminTestersIndexRoute,
 }
 

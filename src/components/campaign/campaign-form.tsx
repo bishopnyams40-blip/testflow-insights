@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
+import { ServiceConfigFields } from "@/components/campaign/service-config-fields";
 import {
   campaignDraftSchema,
   PRODUCT_TYPES,
@@ -11,6 +12,14 @@ import {
   SERVICE_TYPES,
   type CampaignFormValues,
 } from "@/lib/campaign";
+import {
+  emptyServiceConfig,
+  getDefinition,
+  pruneServiceConfig,
+  validateServiceConfiguration,
+  type ServiceConfig,
+  type ServiceConfigValue,
+} from "@/lib/service-engine";
 
 export const EMPTY_CAMPAIGN_FORM: CampaignFormValues = {
   name: "",
@@ -31,22 +40,41 @@ type FieldErrors = Partial<Record<keyof CampaignFormValues, string>>;
 
 export function CampaignForm({
   initial,
+  initialConfig,
   submitLabel,
   pending,
+  lockService = false,
   onSubmit,
   onCancel,
 }: {
   initial: CampaignFormValues;
+  initialConfig?: ServiceConfig;
   submitLabel: string;
   pending: boolean;
-  onSubmit: (values: CampaignFormValues) => void;
+  lockService?: boolean;
+  onSubmit: (values: CampaignFormValues, config: ServiceConfig) => void;
   onCancel?: () => void;
 }) {
   const [values, setValues] = useState<CampaignFormValues>(initial);
   const [errors, setErrors] = useState<FieldErrors>({});
+  const [config, setConfig] = useState<ServiceConfig>({
+    ...emptyServiceConfig(initial.serviceType),
+    ...(initialConfig ? pruneServiceConfig(initial.serviceType, initialConfig) : {}),
+  });
 
   const set = <K extends keyof CampaignFormValues>(key: K, value: CampaignFormValues[K]) =>
     setValues((prev) => ({ ...prev, [key]: value }));
+
+  const setService = (serviceType: CampaignFormValues["serviceType"]) => {
+    set("serviceType", serviceType);
+    setConfig((prev) => ({
+      ...emptyServiceConfig(serviceType),
+      ...pruneServiceConfig(serviceType, prev),
+    }));
+  };
+
+  const setConfigValue = (key: string, value: ServiceConfigValue) =>
+    setConfig((prev) => ({ ...prev, [key]: value }));
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
@@ -61,8 +89,14 @@ export function CampaignForm({
       return;
     }
     setErrors({});
-    onSubmit(parsed.data);
+    onSubmit(parsed.data, pruneServiceConfig(parsed.data.serviceType, config));
   };
+
+  const serviceCheck = validateServiceConfiguration(values.serviceType, config, {
+    taskCount: 1,
+    tasksMissingSuccessCriteria: 0,
+  });
+  const definition = getDefinition(values.serviceType);
 
   return (
     <form className="space-y-6" onSubmit={handleSubmit} noValidate>
@@ -73,14 +107,21 @@ export function CampaignForm({
         <Field label="Campaign name" error={errors.name} htmlFor="name">
           <Input id="name" value={values.name} onChange={(e) => set("name", e.target.value)} />
         </Field>
-        <Field label="Service" error={errors.serviceType} htmlFor="serviceType">
-          <NativeSelect
-            id="serviceType"
-            value={values.serviceType}
-            onChange={(v) => set("serviceType", v as CampaignFormValues["serviceType"])}
-            options={SERVICE_TYPES.map((s) => ({ value: s, label: SERVICE_LABELS[s] }))}
-          />
-        </Field>
+        {lockService ? (
+          <p className="text-sm text-muted-foreground">
+            Service: <span className="font-medium text-foreground">{definition.displayName}</span> —{" "}
+            {definition.shortDescription}
+          </p>
+        ) : (
+          <Field label="Service" error={errors.serviceType} htmlFor="serviceType">
+            <NativeSelect
+              id="serviceType"
+              value={values.serviceType}
+              onChange={(v) => setService(v as CampaignFormValues["serviceType"])}
+              options={SERVICE_TYPES.map((s) => ({ value: s, label: SERVICE_LABELS[s] }))}
+            />
+          </Field>
+        )}
         <Field label="Objective" error={errors.objective} htmlFor="objective">
           <Textarea
             id="objective"

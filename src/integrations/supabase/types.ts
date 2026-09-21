@@ -1288,6 +1288,7 @@ export type Database = {
         Returns: undefined
       }
       owns_tester_profile: { Args: { _tester_id: string }; Returns: boolean }
+      p3a_run: { Args: { _sql: string; _uid: string }; Returns: string }
       record_tester_audit: {
         Args: {
           _action: string

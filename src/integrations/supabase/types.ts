@@ -163,6 +163,7 @@ export type Database = {
           product_type: Database["public"]["Enums"]["product_type"] | null
           product_url: string | null
           quoted_at: string | null
+          service_config: Json
           service_type: Database["public"]["Enums"]["service_type"]
           status: Database["public"]["Enums"]["campaign_status"]
           submitted_at: string | null
@@ -190,6 +191,7 @@ export type Database = {
           product_type?: Database["public"]["Enums"]["product_type"] | null
           product_url?: string | null
           quoted_at?: string | null
+          service_config?: Json
           service_type: Database["public"]["Enums"]["service_type"]
           status?: Database["public"]["Enums"]["campaign_status"]
           submitted_at?: string | null
@@ -217,6 +219,7 @@ export type Database = {
           product_type?: Database["public"]["Enums"]["product_type"] | null
           product_url?: string | null
           quoted_at?: string | null
+          service_config?: Json
           service_type?: Database["public"]["Enums"]["service_type"]
           status?: Database["public"]["Enums"]["campaign_status"]
           submitted_at?: string | null
@@ -1254,6 +1257,10 @@ export type Database = {
         Args: { _campaign_id: string }
         Returns: undefined
       }
+      campaign_service_completeness: {
+        Args: { _campaign_id: string }
+        Returns: Json
+      }
       campaign_submit: {
         Args: { _campaign_id: string }
         Returns: Database["public"]["Enums"]["campaign_status"]
@@ -1278,6 +1285,18 @@ export type Database = {
       is_admin: { Args: never; Returns: boolean }
       is_org_manager: { Args: { _org_id: string }; Returns: boolean }
       is_org_member: { Args: { _org_id: string }; Returns: boolean }
+      jsonb_list_present: {
+        Args: { _cfg: Json; _key: string }
+        Returns: boolean
+      }
+      jsonb_positive_number: {
+        Args: { _cfg: Json; _key: string }
+        Returns: boolean
+      }
+      jsonb_text_present: {
+        Args: { _cfg: Json; _key: string }
+        Returns: boolean
+      }
       notify_tester: {
         Args: {
           _body: string

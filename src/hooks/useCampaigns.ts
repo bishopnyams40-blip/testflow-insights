@@ -116,16 +116,12 @@ export function useCampaign(campaignId: string) {
         requirements: (requirements.data ?? []) as CampaignRequirementRow[],
         completeness: { complete: Boolean(raw.complete), missing: raw.missing ?? [] },
         serviceConfig,
-        serviceCompleteness: validateServiceConfiguration(
-          campaignRow.service_type,
-          serviceConfig,
-          {
-            taskCount: taskRows.length,
-            tasksMissingSuccessCriteria: taskRows.filter(
-              (t) => !t.success_criteria || t.success_criteria.trim() === "",
-            ).length,
-          },
-        ),
+        serviceCompleteness: validateServiceConfiguration(campaignRow.service_type, serviceConfig, {
+          taskCount: taskRows.length,
+          tasksMissingSuccessCriteria: taskRows.filter(
+            (t) => !t.success_criteria || t.success_criteria.trim() === "",
+          ).length,
+        }),
       };
     },
   });

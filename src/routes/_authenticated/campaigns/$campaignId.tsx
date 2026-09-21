@@ -31,6 +31,13 @@ import {
   type RequirementOperator,
   type RequirementType,
 } from "@/lib/campaign";
+import {
+  fieldLabel,
+  formatConfigValue,
+  getDefinition,
+  EVIDENCE_LABELS,
+  type EvidenceType,
+} from "@/lib/service-engine";
 import { toSafeError } from "@/lib/errors";
 
 export const Route = createFileRoute("/_authenticated/campaigns/$campaignId")({
@@ -75,8 +82,10 @@ function CampaignDetailPage() {
       />
     );
 
-  const { campaign, tasks, requirements, completeness } = data;
+  const { campaign, tasks, requirements, completeness, serviceConfig, serviceCompleteness } = data;
   const actions = clientActionsFor(campaign.status);
+  const definition = getDefinition(campaign.service_type);
+  const readyToSend = completeness.complete && serviceCompleteness.complete;
 
   const initial: CampaignFormValues = {
     name: campaign.name,
@@ -92,8 +101,6 @@ function CampaignDetailPage() {
     testAccountInstructions: campaign.test_account_instructions ?? undefined,
     clientNotes: campaign.client_notes ?? undefined,
   };
-
-  const run = (promise: { mutate: (v: void, o?: unknown) => void }, message: string) => promise;
 
   return (
     <div className="space-y-6">
@@ -113,27 +120,37 @@ function CampaignDetailPage() {
         <Badge variant="secondary">{STATUS_LABELS[campaign.status]}</Badge>
       </header>
 
-      {actions.canEdit && !completeness.complete ? (
+      {actions.canEdit && !readyToSend ? (
         <div className="rounded-lg border border-amber-500/40 bg-amber-500/5 p-4 text-sm">
           <p className="font-medium">Still needed before you can send this to TestFlow</p>
-          <p className="mt-1 text-muted-foreground">{completeness.missing.join(", ")}</p>
+          <p className="mt-1 text-muted-foreground">
+            {[
+              ...completeness.missing,
+              ...serviceCompleteness.missing.map((k) => fieldLabel(campaign.service_type, k)),
+            ].join(", ")}
+          </p>
         </div>
       ) : null}
 
       {editing ? (
         <CampaignForm
           initial={initial}
+          initialConfig={serviceConfig}
+          lockService
           submitLabel="Save changes"
           pending={update.isPending}
           onCancel={() => setEditing(false)}
-          onSubmit={(values) =>
-            update.mutate(values, {
-              onSuccess: () => {
-                toast.success("Campaign updated");
-                setEditing(false);
+          onSubmit={(values, config) =>
+            update.mutate(
+              { values, config },
+              {
+                onSuccess: () => {
+                  toast.success("Campaign updated");
+                  setEditing(false);
+                },
+                onError: (err) => toast.error(toSafeError(err).message),
               },
-              onError: (err) => toast.error(toSafeError(err).message),
-            })
+            )
           }
         />
       ) : (
@@ -170,6 +187,33 @@ function CampaignDetailPage() {
         </section>
       )}
 
+      {editing ? null : (
+        <section className="space-y-4 rounded-xl border bg-card p-6">
+          <h2 className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">
+            {definition.displayName} setup
+          </h2>
+          <dl className="grid gap-4 sm:grid-cols-2">
+            {definition.fields.map((field) => (
+              <Detail
+                key={field.key}
+                label={field.label}
+                value={formatConfigValue(serviceConfig[field.key])}
+              />
+            ))}
+          </dl>
+          <p className="text-sm text-muted-foreground">
+            Testers will provide:{" "}
+            {Object.entries(definition.evidenceTypes)
+              .map(
+                ([type, level]) =>
+                  `${EVIDENCE_LABELS[type as EvidenceType]} (${level.toLowerCase()})`,
+              )
+              .join(", ")}
+            .
+          </p>
+        </section>
+      )}
+
       <TasksSection campaignId={campaignId} tasks={tasks} editable={actions.canEdit} />
       <RequirementsSection
         campaignId={campaignId}
@@ -180,7 +224,7 @@ function CampaignDetailPage() {
       <section className="flex flex-wrap gap-3 rounded-xl border bg-card p-6">
         {actions.canSubmit ? (
           <Button
-            disabled={!completeness.complete || lifecycle.submit.isPending}
+            disabled={!readyToSend || lifecycle.submit.isPending}
             onClick={() =>
               lifecycle.submit.mutate(undefined, {
                 onSuccess: () => toast.success("Sent to TestFlow for quoting"),

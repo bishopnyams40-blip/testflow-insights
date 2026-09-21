@@ -136,10 +136,14 @@ describe("service validation", () => {
     );
     expect(noDuration.missing).toContain("sessionDurationMinutes");
 
-    const noCriteria = validateServiceConfiguration("USABILITY_TESTING", complete.USABILITY_TESTING, {
-      taskCount: 2,
-      tasksMissingSuccessCriteria: 1,
-    });
+    const noCriteria = validateServiceConfiguration(
+      "USABILITY_TESTING",
+      complete.USABILITY_TESTING,
+      {
+        taskCount: 2,
+        tasksMissingSuccessCriteria: 1,
+      },
+    );
     expect(noCriteria.missing).toContain("taskSuccessCriteria");
 
     const noTasks = validateServiceConfiguration("USABILITY_TESTING", complete.USABILITY_TESTING, {
@@ -196,7 +200,9 @@ describe("pricing inputs", () => {
         requirementCount: 0,
         config: complete[service],
       });
-      expect(Object.keys(inputs).sort()).toEqual([...getDefinition(service).pricingInputKeys].sort());
+      expect(Object.keys(inputs).sort()).toEqual(
+        [...getDefinition(service).pricingInputKeys].sort(),
+      );
     }
   });
 });

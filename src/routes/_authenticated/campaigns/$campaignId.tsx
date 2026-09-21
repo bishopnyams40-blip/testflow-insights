@@ -185,6 +185,33 @@ function CampaignDetailPage() {
         </section>
       )}
 
+      {editing ? null : (
+        <section className="space-y-4 rounded-xl border bg-card p-6">
+          <h2 className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">
+            {definition.displayName} setup
+          </h2>
+          <dl className="grid gap-4 sm:grid-cols-2">
+            {definition.fields.map((field) => (
+              <Detail
+                key={field.key}
+                label={field.label}
+                value={formatConfigValue(serviceConfig[field.key])}
+              />
+            ))}
+          </dl>
+          <p className="text-sm text-muted-foreground">
+            Testers will provide:{" "}
+            {Object.entries(definition.evidenceTypes)
+              .map(
+                ([type, level]) =>
+                  `${EVIDENCE_LABELS[type as EvidenceType]} (${level.toLowerCase()})`,
+              )
+              .join(", ")}
+            .
+          </p>
+        </section>
+      )}
+
       <TasksSection campaignId={campaignId} tasks={tasks} editable={actions.canEdit} />
       <RequirementsSection
         campaignId={campaignId}

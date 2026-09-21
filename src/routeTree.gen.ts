@@ -23,6 +23,7 @@ import { Route as AuthenticatedTeamRouteImport } from './routes/_authenticated/t
 import { Route as AuthenticatedTestersRouteImport } from './routes/_authenticated/testers'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin/index'
 import { Route as AuthenticatedCampaignsIndexRouteImport } from './routes/_authenticated/campaigns/index'
+import { Route as AuthenticatedCampaignsCampaignIdRouteImport } from './routes/_authenticated/campaigns/$campaignId'
 import { Route as AuthenticatedCampaignsNewRouteImport } from './routes/_authenticated/campaigns/new'
 import { Route as AuthenticatedTesterIndexRouteImport } from './routes/_authenticated/tester/index'
 import { Route as AuthenticatedTesterAssignmentsRouteImport } from './routes/_authenticated/tester/assignments'
@@ -34,6 +35,8 @@ import { Route as AuthenticatedTesterRequestedRouteImport } from './routes/_auth
 import { Route as AuthenticatedTesterRewardsRouteImport } from './routes/_authenticated/tester/rewards'
 import { Route as AuthenticatedTesterSupportRouteImport } from './routes/_authenticated/tester/support'
 import { Route as AuthenticatedTesterVerificationRouteImport } from './routes/_authenticated/tester/verification'
+import { Route as AuthenticatedAdminCampaignsIndexRouteImport } from './routes/_authenticated/admin/campaigns/index'
+import { Route as AuthenticatedAdminCampaignsCampaignIdRouteImport } from './routes/_authenticated/admin/campaigns/$campaignId'
 import { Route as AuthenticatedAdminTestersIndexRouteImport } from './routes/_authenticated/admin/testers/index'
 import { Route as AuthenticatedAdminTestersTesterIdRouteImport } from './routes/_authenticated/admin/testers/$testerId'
 
@@ -107,6 +110,12 @@ const AuthenticatedCampaignsIndexRoute =
     path: '/campaigns/',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedCampaignsCampaignIdRoute =
+  AuthenticatedCampaignsCampaignIdRouteImport.update({
+    id: '/campaigns/$campaignId',
+    path: '/campaigns/$campaignId',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedCampaignsNewRoute =
   AuthenticatedCampaignsNewRouteImport.update({
     id: '/campaigns/new',
@@ -172,6 +181,18 @@ const AuthenticatedTesterVerificationRoute =
     path: '/tester/verification',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedAdminCampaignsIndexRoute =
+  AuthenticatedAdminCampaignsIndexRouteImport.update({
+    id: '/admin/campaigns/',
+    path: '/admin/campaigns/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAdminCampaignsCampaignIdRoute =
+  AuthenticatedAdminCampaignsCampaignIdRouteImport.update({
+    id: '/admin/campaigns/$campaignId',
+    path: '/admin/campaigns/$campaignId',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedAdminTestersIndexRoute =
   AuthenticatedAdminTestersIndexRouteImport.update({
     id: '/admin/testers/',
@@ -197,6 +218,7 @@ export interface FileRoutesByFullPath {
   '/settings': typeof AuthenticatedSettingsRoute
   '/team': typeof AuthenticatedTeamRoute
   '/testers': typeof AuthenticatedTestersRoute
+  '/campaigns/$campaignId': typeof AuthenticatedCampaignsCampaignIdRoute
   '/campaigns/new': typeof AuthenticatedCampaignsNewRoute
   '/tester/assignments': typeof AuthenticatedTesterAssignmentsRoute
   '/tester/completed': typeof AuthenticatedTesterCompletedRoute
@@ -210,7 +232,9 @@ export interface FileRoutesByFullPath {
   '/admin/': typeof AuthenticatedAdminIndexRoute
   '/campaigns/': typeof AuthenticatedCampaignsIndexRoute
   '/tester/': typeof AuthenticatedTesterIndexRoute
+  '/admin/campaigns/$campaignId': typeof AuthenticatedAdminCampaignsCampaignIdRoute
   '/admin/testers/$testerId': typeof AuthenticatedAdminTestersTesterIdRoute
+  '/admin/campaigns/': typeof AuthenticatedAdminCampaignsIndexRoute
   '/admin/testers/': typeof AuthenticatedAdminTestersIndexRoute
 }
 export interface FileRoutesByTo {
@@ -225,6 +249,7 @@ export interface FileRoutesByTo {
   '/settings': typeof AuthenticatedSettingsRoute
   '/team': typeof AuthenticatedTeamRoute
   '/testers': typeof AuthenticatedTestersRoute
+  '/campaigns/$campaignId': typeof AuthenticatedCampaignsCampaignIdRoute
   '/campaigns/new': typeof AuthenticatedCampaignsNewRoute
   '/tester/assignments': typeof AuthenticatedTesterAssignmentsRoute
   '/tester/completed': typeof AuthenticatedTesterCompletedRoute
@@ -238,7 +263,9 @@ export interface FileRoutesByTo {
   '/admin': typeof AuthenticatedAdminIndexRoute
   '/campaigns': typeof AuthenticatedCampaignsIndexRoute
   '/tester': typeof AuthenticatedTesterIndexRoute
+  '/admin/campaigns/$campaignId': typeof AuthenticatedAdminCampaignsCampaignIdRoute
   '/admin/testers/$testerId': typeof AuthenticatedAdminTestersTesterIdRoute
+  '/admin/campaigns': typeof AuthenticatedAdminCampaignsIndexRoute
   '/admin/testers': typeof AuthenticatedAdminTestersIndexRoute
 }
 export interface FileRoutesById {
@@ -255,6 +282,7 @@ export interface FileRoutesById {
   '/_authenticated/settings': typeof AuthenticatedSettingsRoute
   '/_authenticated/team': typeof AuthenticatedTeamRoute
   '/_authenticated/testers': typeof AuthenticatedTestersRoute
+  '/_authenticated/campaigns/$campaignId': typeof AuthenticatedCampaignsCampaignIdRoute
   '/_authenticated/campaigns/new': typeof AuthenticatedCampaignsNewRoute
   '/_authenticated/tester/assignments': typeof AuthenticatedTesterAssignmentsRoute
   '/_authenticated/tester/completed': typeof AuthenticatedTesterCompletedRoute
@@ -268,7 +296,9 @@ export interface FileRoutesById {
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
   '/_authenticated/campaigns/': typeof AuthenticatedCampaignsIndexRoute
   '/_authenticated/tester/': typeof AuthenticatedTesterIndexRoute
+  '/_authenticated/admin/campaigns/$campaignId': typeof AuthenticatedAdminCampaignsCampaignIdRoute
   '/_authenticated/admin/testers/$testerId': typeof AuthenticatedAdminTestersTesterIdRoute
+  '/_authenticated/admin/campaigns/': typeof AuthenticatedAdminCampaignsIndexRoute
   '/_authenticated/admin/testers/': typeof AuthenticatedAdminTestersIndexRoute
 }
 export interface FileRouteTypes {
@@ -285,6 +315,7 @@ export interface FileRouteTypes {
     | '/settings'
     | '/team'
     | '/testers'
+    | '/campaigns/$campaignId'
     | '/campaigns/new'
     | '/tester/assignments'
     | '/tester/completed'
@@ -298,7 +329,9 @@ export interface FileRouteTypes {
     | '/admin/'
     | '/campaigns/'
     | '/tester/'
+    | '/admin/campaigns/$campaignId'
     | '/admin/testers/$testerId'
+    | '/admin/campaigns/'
     | '/admin/testers/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -313,6 +346,7 @@ export interface FileRouteTypes {
     | '/settings'
     | '/team'
     | '/testers'
+    | '/campaigns/$campaignId'
     | '/campaigns/new'
     | '/tester/assignments'
     | '/tester/completed'
@@ -326,7 +360,9 @@ export interface FileRouteTypes {
     | '/admin'
     | '/campaigns'
     | '/tester'
+    | '/admin/campaigns/$campaignId'
     | '/admin/testers/$testerId'
+    | '/admin/campaigns'
     | '/admin/testers'
   id:
     | '__root__'
@@ -342,6 +378,7 @@ export interface FileRouteTypes {
     | '/_authenticated/settings'
     | '/_authenticated/team'
     | '/_authenticated/testers'
+    | '/_authenticated/campaigns/$campaignId'
     | '/_authenticated/campaigns/new'
     | '/_authenticated/tester/assignments'
     | '/_authenticated/tester/completed'
@@ -355,7 +392,9 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/'
     | '/_authenticated/campaigns/'
     | '/_authenticated/tester/'
+    | '/_authenticated/admin/campaigns/$campaignId'
     | '/_authenticated/admin/testers/$testerId'
+    | '/_authenticated/admin/campaigns/'
     | '/_authenticated/admin/testers/'
   fileRoutesById: FileRoutesById
 }
@@ -466,6 +505,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedCampaignsIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/campaigns/$campaignId': {
+      id: '/_authenticated/campaigns/$campaignId'
+      path: '/campaigns/$campaignId'
+      fullPath: '/campaigns/$campaignId'
+      preLoaderRoute: typeof AuthenticatedCampaignsCampaignIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/campaigns/new': {
       id: '/_authenticated/campaigns/new'
       path: '/campaigns/new'
@@ -543,6 +589,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedTesterVerificationRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/admin/campaigns/': {
+      id: '/_authenticated/admin/campaigns/'
+      path: '/admin/campaigns'
+      fullPath: '/admin/campaigns/'
+      preLoaderRoute: typeof AuthenticatedAdminCampaignsIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/campaigns/$campaignId': {
+      id: '/_authenticated/admin/campaigns/$campaignId'
+      path: '/admin/campaigns/$campaignId'
+      fullPath: '/admin/campaigns/$campaignId'
+      preLoaderRoute: typeof AuthenticatedAdminCampaignsCampaignIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/admin/testers/': {
       id: '/_authenticated/admin/testers/'
       path: '/admin/testers'
@@ -569,6 +629,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedSettingsRoute: typeof AuthenticatedSettingsRoute
   AuthenticatedTeamRoute: typeof AuthenticatedTeamRoute
   AuthenticatedTestersRoute: typeof AuthenticatedTestersRoute
+  AuthenticatedCampaignsCampaignIdRoute: typeof AuthenticatedCampaignsCampaignIdRoute
   AuthenticatedCampaignsNewRoute: typeof AuthenticatedCampaignsNewRoute
   AuthenticatedTesterAssignmentsRoute: typeof AuthenticatedTesterAssignmentsRoute
   AuthenticatedTesterCompletedRoute: typeof AuthenticatedTesterCompletedRoute
@@ -582,7 +643,9 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedAdminIndexRoute: typeof AuthenticatedAdminIndexRoute
   AuthenticatedCampaignsIndexRoute: typeof AuthenticatedCampaignsIndexRoute
   AuthenticatedTesterIndexRoute: typeof AuthenticatedTesterIndexRoute
+  AuthenticatedAdminCampaignsCampaignIdRoute: typeof AuthenticatedAdminCampaignsCampaignIdRoute
   AuthenticatedAdminTestersTesterIdRoute: typeof AuthenticatedAdminTestersTesterIdRoute
+  AuthenticatedAdminCampaignsIndexRoute: typeof AuthenticatedAdminCampaignsIndexRoute
   AuthenticatedAdminTestersIndexRoute: typeof AuthenticatedAdminTestersIndexRoute
 }
 
@@ -595,6 +658,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedSettingsRoute: AuthenticatedSettingsRoute,
   AuthenticatedTeamRoute: AuthenticatedTeamRoute,
   AuthenticatedTestersRoute: AuthenticatedTestersRoute,
+  AuthenticatedCampaignsCampaignIdRoute: AuthenticatedCampaignsCampaignIdRoute,
   AuthenticatedCampaignsNewRoute: AuthenticatedCampaignsNewRoute,
   AuthenticatedTesterAssignmentsRoute: AuthenticatedTesterAssignmentsRoute,
   AuthenticatedTesterCompletedRoute: AuthenticatedTesterCompletedRoute,
@@ -608,8 +672,11 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAdminIndexRoute: AuthenticatedAdminIndexRoute,
   AuthenticatedCampaignsIndexRoute: AuthenticatedCampaignsIndexRoute,
   AuthenticatedTesterIndexRoute: AuthenticatedTesterIndexRoute,
+  AuthenticatedAdminCampaignsCampaignIdRoute:
+    AuthenticatedAdminCampaignsCampaignIdRoute,
   AuthenticatedAdminTestersTesterIdRoute:
     AuthenticatedAdminTestersTesterIdRoute,
+  AuthenticatedAdminCampaignsIndexRoute: AuthenticatedAdminCampaignsIndexRoute,
   AuthenticatedAdminTestersIndexRoute: AuthenticatedAdminTestersIndexRoute,
 }
 

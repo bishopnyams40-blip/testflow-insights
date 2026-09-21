@@ -31,6 +31,13 @@ import {
   type RequirementOperator,
   type RequirementType,
 } from "@/lib/campaign";
+import {
+  fieldLabel,
+  formatConfigValue,
+  getDefinition,
+  EVIDENCE_LABELS,
+  type EvidenceType,
+} from "@/lib/service-engine";
 import { toSafeError } from "@/lib/errors";
 
 export const Route = createFileRoute("/_authenticated/campaigns/$campaignId")({
@@ -75,8 +82,10 @@ function CampaignDetailPage() {
       />
     );
 
-  const { campaign, tasks, requirements, completeness } = data;
+  const { campaign, tasks, requirements, completeness, serviceConfig, serviceCompleteness } = data;
   const actions = clientActionsFor(campaign.status);
+  const definition = getDefinition(campaign.service_type);
+  const readyToSend = completeness.complete && serviceCompleteness.complete;
 
   const initial: CampaignFormValues = {
     name: campaign.name,
@@ -93,7 +102,6 @@ function CampaignDetailPage() {
     clientNotes: campaign.client_notes ?? undefined,
   };
 
-  const run = (promise: { mutate: (v: void, o?: unknown) => void }, message: string) => promise;
 
   return (
     <div className="space-y-6">
@@ -113,21 +121,28 @@ function CampaignDetailPage() {
         <Badge variant="secondary">{STATUS_LABELS[campaign.status]}</Badge>
       </header>
 
-      {actions.canEdit && !completeness.complete ? (
+      {actions.canEdit && !readyToSend ? (
         <div className="rounded-lg border border-amber-500/40 bg-amber-500/5 p-4 text-sm">
           <p className="font-medium">Still needed before you can send this to TestFlow</p>
-          <p className="mt-1 text-muted-foreground">{completeness.missing.join(", ")}</p>
+          <p className="mt-1 text-muted-foreground">
+            {[
+              ...completeness.missing,
+              ...serviceCompleteness.missing.map((k) => fieldLabel(campaign.service_type, k)),
+            ].join(", ")}
+          </p>
         </div>
       ) : null}
 
       {editing ? (
         <CampaignForm
           initial={initial}
+          initialConfig={serviceConfig}
+          lockService
           submitLabel="Save changes"
           pending={update.isPending}
           onCancel={() => setEditing(false)}
-          onSubmit={(values) =>
-            update.mutate(values, {
+          onSubmit={(values, config) =>
+            update.mutate({ values, config }, {
               onSuccess: () => {
                 toast.success("Campaign updated");
                 setEditing(false);

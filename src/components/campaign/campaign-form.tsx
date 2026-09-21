@@ -231,6 +231,21 @@ export function CampaignForm({
         </Field>
       </section>
 
+      <ServiceConfigFields
+        serviceType={values.serviceType}
+        config={config}
+        onChange={setConfigValue}
+      />
+
+      {!serviceCheck.complete ? (
+        <p className="text-sm text-muted-foreground">
+          You can save this as a draft now. Before sending it to TestFlow you'll need to finish the{" "}
+          {definition.displayName.toLowerCase()} setup above.
+        </p>
+      ) : null}
+
+
+
       <div className="flex gap-3">
         <Button type="submit" disabled={pending}>
           {pending ? "Saving…" : submitLabel}

@@ -1,0 +1,2 @@
+REVOKE EXECUTE ON FUNCTION public.guard_campaign_protected_fields() FROM PUBLIC, anon, authenticated;
+REVOKE EXECUTE ON FUNCTION public.guard_campaign_child_editable() FROM PUBLIC, anon, authenticated;

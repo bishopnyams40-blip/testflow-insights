@@ -395,6 +395,63 @@ export type Database = {
           },
         ]
       }
+      job_requests: {
+        Row: {
+          created_at: string
+          id: string
+          metadata: Json
+          opportunity_id: string
+          rejection_reason: string | null
+          requested_at: string
+          reviewed_at: string | null
+          reviewed_by: string | null
+          status: Database["public"]["Enums"]["job_request_status"]
+          tester_id: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          metadata?: Json
+          opportunity_id: string
+          rejection_reason?: string | null
+          requested_at?: string
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          status?: Database["public"]["Enums"]["job_request_status"]
+          tester_id: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          metadata?: Json
+          opportunity_id?: string
+          rejection_reason?: string | null
+          requested_at?: string
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          status?: Database["public"]["Enums"]["job_request_status"]
+          tester_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "job_requests_opportunity_id_fkey"
+            columns: ["opportunity_id"]
+            isOneToOne: false
+            referencedRelation: "opportunities"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "job_requests_tester_id_fkey"
+            columns: ["tester_id"]
+            isOneToOne: false
+            referencedRelation: "tester_profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       ledger_entries: {
         Row: {
           amount_cents: number
@@ -548,6 +605,68 @@ export type Database = {
           user_id?: string
         }
         Relationships: []
+      }
+      opportunities: {
+        Row: {
+          campaign_id: string
+          cancellation_reason: string | null
+          closes_at: string | null
+          created_at: string
+          created_by: string
+          description: string | null
+          id: string
+          opens_at: string | null
+          recruitment_source: Database["public"]["Enums"]["recruitment_source"]
+          slots_filled: number
+          slots_requested: number
+          slots_total: number
+          status: Database["public"]["Enums"]["opportunity_status"]
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          campaign_id: string
+          cancellation_reason?: string | null
+          closes_at?: string | null
+          created_at?: string
+          created_by: string
+          description?: string | null
+          id?: string
+          opens_at?: string | null
+          recruitment_source?: Database["public"]["Enums"]["recruitment_source"]
+          slots_filled?: number
+          slots_requested?: number
+          slots_total?: number
+          status?: Database["public"]["Enums"]["opportunity_status"]
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          campaign_id?: string
+          cancellation_reason?: string | null
+          closes_at?: string | null
+          created_at?: string
+          created_by?: string
+          description?: string | null
+          id?: string
+          opens_at?: string | null
+          recruitment_source?: Database["public"]["Enums"]["recruitment_source"]
+          slots_filled?: number
+          slots_requested?: number
+          slots_total?: number
+          status?: Database["public"]["Enums"]["opportunity_status"]
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "opportunities_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "campaigns"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       organization_members: {
         Row: {
@@ -926,6 +1045,62 @@ export type Database = {
           },
         ]
       }
+      tester_invitations: {
+        Row: {
+          accepted_at: string | null
+          accepted_by: string | null
+          campaign_id: string | null
+          created_at: string
+          email: string
+          expires_at: string
+          id: string
+          invited_by: string
+          notes: string | null
+          source: Database["public"]["Enums"]["recruitment_source"]
+          status: Database["public"]["Enums"]["invitation_status"]
+          token_hash: string
+          updated_at: string
+        }
+        Insert: {
+          accepted_at?: string | null
+          accepted_by?: string | null
+          campaign_id?: string | null
+          created_at?: string
+          email: string
+          expires_at: string
+          id?: string
+          invited_by: string
+          notes?: string | null
+          source?: Database["public"]["Enums"]["recruitment_source"]
+          status?: Database["public"]["Enums"]["invitation_status"]
+          token_hash: string
+          updated_at?: string
+        }
+        Update: {
+          accepted_at?: string | null
+          accepted_by?: string | null
+          campaign_id?: string | null
+          created_at?: string
+          email?: string
+          expires_at?: string
+          id?: string
+          invited_by?: string
+          notes?: string | null
+          source?: Database["public"]["Enums"]["recruitment_source"]
+          status?: Database["public"]["Enums"]["invitation_status"]
+          token_hash?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tester_invitations_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "campaigns"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       tester_profiles: {
         Row: {
           account_status: Database["public"]["Enums"]["user_status"]
@@ -1133,6 +1308,7 @@ export type Database = {
           total: number
         }[]
       }
+      admin_job_request_detail: { Args: { _request_id: string }; Returns: Json }
       admin_list_campaigns: {
         Args: {
           _limit?: number
@@ -1156,6 +1332,84 @@ export type Database = {
           status: Database["public"]["Enums"]["campaign_status"]
           total_count: number
           updated_at: string
+        }[]
+      }
+      admin_list_invitations: {
+        Args: {
+          _limit?: number
+          _offset?: number
+          _search?: string
+          _status?: Database["public"]["Enums"]["invitation_status"]
+        }
+        Returns: {
+          accepted_at: string
+          campaign_id: string
+          campaign_name: string
+          created_at: string
+          email: string
+          expires_at: string
+          id: string
+          source: Database["public"]["Enums"]["recruitment_source"]
+          status: Database["public"]["Enums"]["invitation_status"]
+          total_count: number
+        }[]
+      }
+      admin_list_job_requests: {
+        Args: {
+          _limit?: number
+          _offset?: number
+          _opportunity_id?: string
+          _search?: string
+          _status?: Database["public"]["Enums"]["job_request_status"]
+        }
+        Returns: {
+          age_range: string
+          availability_status: Database["public"]["Enums"]["availability_status"]
+          campaign_name: string
+          country: string
+          experience_level: Database["public"]["Enums"]["experience_level"]
+          id: string
+          opportunity_id: string
+          opportunity_title: string
+          quality_score: number
+          rejection_reason: string
+          reliability_score: number
+          requested_at: string
+          reviewed_at: string
+          service_type: Database["public"]["Enums"]["service_type"]
+          status: Database["public"]["Enums"]["job_request_status"]
+          tester_id: string
+          total_count: number
+          verification_status: Database["public"]["Enums"]["verification_status"]
+        }[]
+      }
+      admin_list_opportunities: {
+        Args: {
+          _campaign_id?: string
+          _limit?: number
+          _offset?: number
+          _search?: string
+          _service?: Database["public"]["Enums"]["service_type"]
+          _source?: Database["public"]["Enums"]["recruitment_source"]
+          _status?: Database["public"]["Enums"]["opportunity_status"]
+        }
+        Returns: {
+          campaign_id: string
+          campaign_name: string
+          closes_at: string
+          created_at: string
+          id: string
+          opens_at: string
+          organization_name: string
+          pending_requests: number
+          recruitment_source: Database["public"]["Enums"]["recruitment_source"]
+          service_type: Database["public"]["Enums"]["service_type"]
+          slots_filled: number
+          slots_requested: number
+          slots_total: number
+          status: Database["public"]["Enums"]["opportunity_status"]
+          title: string
+          total_count: number
         }[]
       }
       admin_list_testers: {
@@ -1189,6 +1443,7 @@ export type Database = {
           verification_status: Database["public"]["Enums"]["verification_status"]
         }[]
       }
+      admin_recruitment_stats: { Args: never; Returns: Json }
       admin_review_device: {
         Args: {
           _device_id: string
@@ -1196,6 +1451,14 @@ export type Database = {
           _status: Database["public"]["Enums"]["attribute_verification_status"]
         }
         Returns: undefined
+      }
+      admin_review_job_request: {
+        Args: {
+          _reason?: string
+          _request_id: string
+          _status: Database["public"]["Enums"]["job_request_status"]
+        }
+        Returns: Database["public"]["Enums"]["job_request_status"]
       }
       admin_review_skill: {
         Args: {
@@ -1257,6 +1520,10 @@ export type Database = {
         Args: { _campaign_id: string }
         Returns: undefined
       }
+      campaign_recruitment_summary: {
+        Args: { _campaign_id: string }
+        Returns: Json
+      }
       campaign_service_completeness: {
         Args: { _campaign_id: string }
         Returns: Json
@@ -1275,6 +1542,8 @@ export type Database = {
         Returns: boolean
       }
       can_manage_campaigns: { Args: { _org_id: string }; Returns: boolean }
+      current_tester_id: { Args: never; Returns: string }
+      experience_rank: { Args: { _value: string }; Returns: number }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
@@ -1282,9 +1551,30 @@ export type Database = {
         }
         Returns: boolean
       }
+      invitation_accept: { Args: { _token: string }; Returns: Json }
+      invitation_cancel: {
+        Args: { _invitation_id: string }
+        Returns: undefined
+      }
+      invitation_create: {
+        Args: {
+          _campaign_id?: string
+          _email: string
+          _notes?: string
+          _source?: Database["public"]["Enums"]["recruitment_source"]
+          _valid_days?: number
+        }
+        Returns: Json
+      }
+      invitation_expire_due: { Args: never; Returns: number }
       is_admin: { Args: never; Returns: boolean }
       is_org_manager: { Args: { _org_id: string }; Returns: boolean }
       is_org_member: { Args: { _org_id: string }; Returns: boolean }
+      job_request_create: { Args: { _opportunity_id: string }; Returns: string }
+      job_request_withdraw: {
+        Args: { _request_id: string }
+        Returns: undefined
+      }
       jsonb_list_present: {
         Args: { _cfg: Json; _key: string }
         Returns: boolean
@@ -1306,6 +1596,43 @@ export type Database = {
         }
         Returns: undefined
       }
+      opportunity_create: {
+        Args: {
+          _campaign_id: string
+          _closes_at: string
+          _description: string
+          _opens_at: string
+          _slots_total: number
+          _source?: Database["public"]["Enums"]["recruitment_source"]
+          _title: string
+        }
+        Returns: string
+      }
+      opportunity_expire_due: { Args: never; Returns: number }
+      opportunity_is_requestable: {
+        Args: { _o: Database["public"]["Tables"]["opportunities"]["Row"] }
+        Returns: boolean
+      }
+      opportunity_set_status: {
+        Args: {
+          _opportunity_id: string
+          _reason?: string
+          _status: Database["public"]["Enums"]["opportunity_status"]
+        }
+        Returns: Database["public"]["Enums"]["opportunity_status"]
+      }
+      opportunity_update_draft: {
+        Args: {
+          _closes_at: string
+          _description: string
+          _opens_at: string
+          _opportunity_id: string
+          _slots_total: number
+          _source: Database["public"]["Enums"]["recruitment_source"]
+          _title: string
+        }
+        Returns: undefined
+      }
       owns_tester_profile: { Args: { _tester_id: string }; Returns: boolean }
       record_tester_audit: {
         Args: {
@@ -1318,10 +1645,69 @@ export type Database = {
         }
         Returns: undefined
       }
+      recruitment_brief: { Args: { _opportunity_id: string }; Returns: string }
+      requirement_matches: {
+        Args: {
+          _candidates: string[]
+          _operator: Database["public"]["Enums"]["requirement_operator"]
+          _value: Json
+        }
+        Returns: boolean
+      }
       self_has_role: {
         Args: { _role: Database["public"]["Enums"]["app_role"] }
         Returns: boolean
       }
+      tester_list_opportunities: {
+        Args: {
+          _limit?: number
+          _offset?: number
+          _search?: string
+          _service?: Database["public"]["Enums"]["service_type"]
+        }
+        Returns: {
+          campaign_id: string
+          closes_at: string
+          description: string
+          id: string
+          opens_at: string
+          product_type: Database["public"]["Enums"]["product_type"]
+          recruitment_source: Database["public"]["Enums"]["recruitment_source"]
+          request_status: Database["public"]["Enums"]["job_request_status"]
+          service_type: Database["public"]["Enums"]["service_type"]
+          slots_requested: number
+          slots_total: number
+          title: string
+          total_count: number
+        }[]
+      }
+      tester_list_requests: {
+        Args: {
+          _limit?: number
+          _offset?: number
+          _status?: Database["public"]["Enums"]["job_request_status"]
+        }
+        Returns: {
+          id: string
+          opportunity_id: string
+          rejection_reason: string
+          requested_at: string
+          reviewed_at: string
+          service_type: Database["public"]["Enums"]["service_type"]
+          status: Database["public"]["Enums"]["job_request_status"]
+          title: string
+          total_count: number
+        }[]
+      }
+      tester_meets_requirements: {
+        Args: { _campaign_id: string; _tester_id: string }
+        Returns: Json
+      }
+      tester_opportunity_detail: {
+        Args: { _opportunity_id: string }
+        Returns: Json
+      }
+      tester_request_counters: { Args: never; Returns: Json }
     }
     Enums: {
       app_role: "CLIENT" | "TESTER" | "ADMIN"
@@ -1385,6 +1771,19 @@ export type Database = {
         | "DOCUMENT"
         | "REPORT"
         | "OTHER"
+      invitation_status:
+        | "PENDING"
+        | "SENT"
+        | "ACCEPTED"
+        | "EXPIRED"
+        | "CANCELLED"
+      job_request_status:
+        | "REQUESTED"
+        | "UNDER_REVIEW"
+        | "APPROVED"
+        | "REJECTED"
+        | "WITHDRAWN"
+        | "EXPIRED"
       ledger_entry_type:
         | "CLIENT_PAYMENT"
         | "TESTER_REWARD"
@@ -1396,6 +1795,14 @@ export type Database = {
       message_type: "TEXT" | "SYSTEM"
       notification_channel: "IN_APP" | "EMAIL" | "PUSH"
       notification_status: "PENDING" | "SENT" | "READ" | "FAILED"
+      opportunity_status:
+        | "DRAFT"
+        | "OPEN"
+        | "PAUSED"
+        | "FULL"
+        | "CLOSED"
+        | "EXPIRED"
+        | "CANCELLED"
       org_member_role: "OWNER" | "ADMIN" | "MEMBER" | "BILLING"
       org_member_status: "INVITED" | "ACTIVE" | "SUSPENDED" | "REMOVED"
       org_status: "PENDING" | "ACTIVE" | "SUSPENDED" | "CLOSED"
@@ -1421,6 +1828,12 @@ export type Database = {
         | "DESKTOP_APP"
         | "PROTOTYPE"
         | "CONCEPT"
+        | "OTHER"
+      recruitment_source:
+        | "TESTFLOW_NETWORK"
+        | "UPWORK"
+        | "REFERRAL"
+        | "DIRECT_INVITATION"
         | "OTHER"
       requirement_operator:
         | "EQUALS"
@@ -1655,6 +2068,21 @@ export const Constants = {
         "REPORT",
         "OTHER",
       ],
+      invitation_status: [
+        "PENDING",
+        "SENT",
+        "ACCEPTED",
+        "EXPIRED",
+        "CANCELLED",
+      ],
+      job_request_status: [
+        "REQUESTED",
+        "UNDER_REVIEW",
+        "APPROVED",
+        "REJECTED",
+        "WITHDRAWN",
+        "EXPIRED",
+      ],
       ledger_entry_type: [
         "CLIENT_PAYMENT",
         "TESTER_REWARD",
@@ -1667,6 +2095,15 @@ export const Constants = {
       message_type: ["TEXT", "SYSTEM"],
       notification_channel: ["IN_APP", "EMAIL", "PUSH"],
       notification_status: ["PENDING", "SENT", "READ", "FAILED"],
+      opportunity_status: [
+        "DRAFT",
+        "OPEN",
+        "PAUSED",
+        "FULL",
+        "CLOSED",
+        "EXPIRED",
+        "CANCELLED",
+      ],
       org_member_role: ["OWNER", "ADMIN", "MEMBER", "BILLING"],
       org_member_status: ["INVITED", "ACTIVE", "SUSPENDED", "REMOVED"],
       org_status: ["PENDING", "ACTIVE", "SUSPENDED", "CLOSED"],
@@ -1694,6 +2131,13 @@ export const Constants = {
         "DESKTOP_APP",
         "PROTOTYPE",
         "CONCEPT",
+        "OTHER",
+      ],
+      recruitment_source: [
+        "TESTFLOW_NETWORK",
+        "UPWORK",
+        "REFERRAL",
+        "DIRECT_INVITATION",
         "OTHER",
       ],
       requirement_operator: [

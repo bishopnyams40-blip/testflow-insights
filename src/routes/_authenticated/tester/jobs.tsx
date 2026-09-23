@@ -11,9 +11,15 @@ export const Route = createFileRoute("/_authenticated/tester/jobs")({
   head: () => ({
     meta: [
       { title: "Available Jobs — TestFlow" },
-      { name: "description", content: "Opportunities you qualify for. Requesting a job is not an assignment." },
+      {
+        name: "description",
+        content: "Opportunities you qualify for. Requesting a job is not an assignment.",
+      },
       { property: "og:title", content: "Available Jobs — TestFlow" },
-      { property: "og:description", content: "Opportunities you qualify for. Requesting a job is not an assignment." },
+      {
+        property: "og:description",
+        content: "Opportunities you qualify for. Requesting a job is not an assignment.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
     ],
@@ -31,15 +37,22 @@ function TesterJobsPage() {
       <header>
         <h1 className="text-2xl font-semibold">Available Jobs</h1>
         <p className="mt-1 text-sm text-muted-foreground">
-          Jobs you qualify for. Requesting a job is not an assignment — TestFlow reviews every request.
+          Jobs you qualify for. Requesting a job is not an assignment — TestFlow reviews every
+          request.
         </p>
       </header>
       {data.length === 0 ? (
-        <EmptyState title="No jobs right now" description="Keep your profile and devices up to date to qualify for more." />
+        <EmptyState
+          title="No jobs right now"
+          description="Keep your profile and devices up to date to qualify for more."
+        />
       ) : (
         <ul className="space-y-3">
           {data.map((o) => (
-            <li key={o.id} className="flex flex-wrap items-start justify-between gap-4 rounded-xl border bg-card p-5">
+            <li
+              key={o.id}
+              className="flex flex-wrap items-start justify-between gap-4 rounded-xl border bg-card p-5"
+            >
               <div>
                 <p className="font-medium">{o.title}</p>
                 <p className="mt-1 text-sm text-muted-foreground">
@@ -49,7 +62,9 @@ function TesterJobsPage() {
                 {o.description ? <p className="mt-2 text-sm">{o.description}</p> : null}
               </div>
               {o.request_status ? (
-                <Badge variant="secondary">{o.request_status.replaceAll("_", " ").toLowerCase()}</Badge>
+                <Badge variant="secondary">
+                  {o.request_status.replaceAll("_", " ").toLowerCase()}
+                </Badge>
               ) : (
                 <Button
                   disabled={request.isPending}

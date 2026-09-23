@@ -11,9 +11,15 @@ export const Route = createFileRoute("/_authenticated/tester/requested")({
   head: () => ({
     meta: [
       { title: "Requested — TestFlow" },
-      { name: "description", content: "Jobs you have asked to join, awaiting a decision from TestFlow." },
+      {
+        name: "description",
+        content: "Jobs you have asked to join, awaiting a decision from TestFlow.",
+      },
       { property: "og:title", content: "Requested — TestFlow" },
-      { property: "og:description", content: "Jobs you have asked to join, awaiting a decision from TestFlow." },
+      {
+        property: "og:description",
+        content: "Jobs you have asked to join, awaiting a decision from TestFlow.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
     ],
@@ -34,13 +40,19 @@ function TesterRequestedPage() {
       ) : (
         <ul className="space-y-3">
           {data.map((r) => (
-            <li key={r.id} className="flex flex-wrap items-center justify-between gap-4 rounded-xl border bg-card p-5">
+            <li
+              key={r.id}
+              className="flex flex-wrap items-center justify-between gap-4 rounded-xl border bg-card p-5"
+            >
               <div>
                 <p className="font-medium">{r.title}</p>
                 <p className="mt-1 text-sm text-muted-foreground">
-                  {SERVICE_LABELS[r.service_type]} · requested {new Date(r.requested_at).toLocaleDateString()}
+                  {SERVICE_LABELS[r.service_type]} · requested{" "}
+                  {new Date(r.requested_at).toLocaleDateString()}
                 </p>
-                {r.rejection_reason ? <p className="mt-1 text-sm text-destructive">{r.rejection_reason}</p> : null}
+                {r.rejection_reason ? (
+                  <p className="mt-1 text-sm text-destructive">{r.rejection_reason}</p>
+                ) : null}
               </div>
               <div className="flex items-center gap-2">
                 <Badge variant="secondary">{r.status.replaceAll("_", " ").toLowerCase()}</Badge>

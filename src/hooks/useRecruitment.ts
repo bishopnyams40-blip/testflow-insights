@@ -8,7 +8,14 @@ export type JobRequestStatus = Database["public"]["Enums"]["job_request_status"]
 function useRefresh() {
   const qc = useQueryClient();
   return () => {
-    for (const k of ["tester-opps", "tester-requests", "admin-opps", "admin-requests", "admin-recruit-stats", "campaign-recruit"])
+    for (const k of [
+      "tester-opps",
+      "tester-requests",
+      "admin-opps",
+      "admin-requests",
+      "admin-recruit-stats",
+      "campaign-recruit",
+    ])
       void qc.invalidateQueries({ queryKey: [k] });
   };
 }
@@ -39,7 +46,9 @@ export function useRequestJob() {
   const refresh = useRefresh();
   return useMutation({
     mutationFn: async (opportunityId: string) => {
-      const { error } = await supabase.rpc("job_request_create", { _opportunity_id: opportunityId });
+      const { error } = await supabase.rpc("job_request_create", {
+        _opportunity_id: opportunityId,
+      });
       if (error) throw error;
     },
     onSuccess: refresh,
@@ -91,7 +100,12 @@ export function useAdminRecruitment(enabled: boolean) {
 export function useAdminRecruitmentActions() {
   const refresh = useRefresh();
   const create = useMutation({
-    mutationFn: async (v: { campaignId: string; title: string; slots: number; closesAt: string }) => {
+    mutationFn: async (v: {
+      campaignId: string;
+      title: string;
+      slots: number;
+      closesAt: string;
+    }) => {
       const { error } = await supabase.rpc("opportunity_create", {
         _campaign_id: v.campaignId,
         _title: v.title,

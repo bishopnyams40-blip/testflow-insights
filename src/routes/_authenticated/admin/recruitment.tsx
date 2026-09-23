@@ -35,7 +35,7 @@ const onErr = (e: unknown) => toast.error(toSafeError(e).message);
 
 function AdminRecruitmentPage() {
   const { data: session } = useSession();
-  const isAdmin = session?.role === "ADMIN";
+  const isAdmin = session?.roles.includes("ADMIN") ?? false;
   const { stats, opps, requests } = useAdminRecruitment(isAdmin);
   const actions = useAdminRecruitmentActions();
   const [form, setForm] = useState({ campaignId: "", title: "", slots: 5, closesAt: "" });
@@ -108,10 +108,10 @@ function AdminRecruitmentPage() {
 
       <section className="space-y-3">
         <h2 className="text-sm font-semibold uppercase text-muted-foreground">Opportunities</h2>
-        {opps.data.length === 0 ? (
+        {(opps.data ?? []).length === 0 ? (
           <p className="text-sm text-muted-foreground">No opportunities yet.</p>
         ) : (
-          opps.data.map((o) => (
+          (opps.data ?? []).map((o) => (
             <div
               key={o.id}
               className="flex flex-wrap items-center justify-between gap-3 rounded-xl border bg-card p-4"
@@ -146,10 +146,10 @@ function AdminRecruitmentPage() {
 
       <section className="space-y-3">
         <h2 className="text-sm font-semibold uppercase text-muted-foreground">Job requests</h2>
-        {requests.data.length === 0 ? (
+        {(requests.data ?? []).length === 0 ? (
           <p className="text-sm text-muted-foreground">No requests yet.</p>
         ) : (
-          requests.data.map((r) => (
+          (requests.data ?? []).map((r) => (
             <div
               key={r.id}
               className="flex flex-wrap items-center justify-between gap-3 rounded-xl border bg-card p-4"

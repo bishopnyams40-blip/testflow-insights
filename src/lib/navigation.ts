@@ -39,6 +39,7 @@ export const ADMIN_NAV: NavItem[] = [
   { label: "Operations", to: "/admin" },
   { label: "Tester network", to: "/admin/testers" },
   { label: "Campaigns", to: "/admin/campaigns" },
+  { label: "Recruitment", to: "/admin/recruitment" },
   { label: "Messages", to: "/messages" },
   { label: "Settings", to: "/settings" },
 ];

@@ -22,6 +22,7 @@ import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticat
 import { Route as AuthenticatedTeamRouteImport } from './routes/_authenticated/team'
 import { Route as AuthenticatedTestersRouteImport } from './routes/_authenticated/testers'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin/index'
+import { Route as AuthenticatedAdminRecruitmentRouteImport } from './routes/_authenticated/admin/recruitment'
 import { Route as AuthenticatedCampaignsIndexRouteImport } from './routes/_authenticated/campaigns/index'
 import { Route as AuthenticatedCampaignsCampaignIdRouteImport } from './routes/_authenticated/campaigns/$campaignId'
 import { Route as AuthenticatedCampaignsNewRouteImport } from './routes/_authenticated/campaigns/new'
@@ -104,6 +105,12 @@ const AuthenticatedAdminIndexRoute = AuthenticatedAdminIndexRouteImport.update({
   path: '/admin/',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedAdminRecruitmentRoute =
+  AuthenticatedAdminRecruitmentRouteImport.update({
+    id: '/admin/recruitment',
+    path: '/admin/recruitment',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedCampaignsIndexRoute =
   AuthenticatedCampaignsIndexRouteImport.update({
     id: '/campaigns/',
@@ -218,6 +225,7 @@ export interface FileRoutesByFullPath {
   '/settings': typeof AuthenticatedSettingsRoute
   '/team': typeof AuthenticatedTeamRoute
   '/testers': typeof AuthenticatedTestersRoute
+  '/admin/recruitment': typeof AuthenticatedAdminRecruitmentRoute
   '/campaigns/$campaignId': typeof AuthenticatedCampaignsCampaignIdRoute
   '/campaigns/new': typeof AuthenticatedCampaignsNewRoute
   '/tester/assignments': typeof AuthenticatedTesterAssignmentsRoute
@@ -249,6 +257,7 @@ export interface FileRoutesByTo {
   '/settings': typeof AuthenticatedSettingsRoute
   '/team': typeof AuthenticatedTeamRoute
   '/testers': typeof AuthenticatedTestersRoute
+  '/admin/recruitment': typeof AuthenticatedAdminRecruitmentRoute
   '/campaigns/$campaignId': typeof AuthenticatedCampaignsCampaignIdRoute
   '/campaigns/new': typeof AuthenticatedCampaignsNewRoute
   '/tester/assignments': typeof AuthenticatedTesterAssignmentsRoute
@@ -282,6 +291,7 @@ export interface FileRoutesById {
   '/_authenticated/settings': typeof AuthenticatedSettingsRoute
   '/_authenticated/team': typeof AuthenticatedTeamRoute
   '/_authenticated/testers': typeof AuthenticatedTestersRoute
+  '/_authenticated/admin/recruitment': typeof AuthenticatedAdminRecruitmentRoute
   '/_authenticated/campaigns/$campaignId': typeof AuthenticatedCampaignsCampaignIdRoute
   '/_authenticated/campaigns/new': typeof AuthenticatedCampaignsNewRoute
   '/_authenticated/tester/assignments': typeof AuthenticatedTesterAssignmentsRoute
@@ -315,6 +325,7 @@ export interface FileRouteTypes {
     | '/settings'
     | '/team'
     | '/testers'
+    | '/admin/recruitment'
     | '/campaigns/$campaignId'
     | '/campaigns/new'
     | '/tester/assignments'
@@ -346,6 +357,7 @@ export interface FileRouteTypes {
     | '/settings'
     | '/team'
     | '/testers'
+    | '/admin/recruitment'
     | '/campaigns/$campaignId'
     | '/campaigns/new'
     | '/tester/assignments'
@@ -378,6 +390,7 @@ export interface FileRouteTypes {
     | '/_authenticated/settings'
     | '/_authenticated/team'
     | '/_authenticated/testers'
+    | '/_authenticated/admin/recruitment'
     | '/_authenticated/campaigns/$campaignId'
     | '/_authenticated/campaigns/new'
     | '/_authenticated/tester/assignments'
@@ -496,6 +509,13 @@ declare module '@tanstack/react-router' {
       path: '/admin'
       fullPath: '/admin/'
       preLoaderRoute: typeof AuthenticatedAdminIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/recruitment': {
+      id: '/_authenticated/admin/recruitment'
+      path: '/admin/recruitment'
+      fullPath: '/admin/recruitment'
+      preLoaderRoute: typeof AuthenticatedAdminRecruitmentRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/campaigns/': {
@@ -629,6 +649,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedSettingsRoute: typeof AuthenticatedSettingsRoute
   AuthenticatedTeamRoute: typeof AuthenticatedTeamRoute
   AuthenticatedTestersRoute: typeof AuthenticatedTestersRoute
+  AuthenticatedAdminRecruitmentRoute: typeof AuthenticatedAdminRecruitmentRoute
   AuthenticatedCampaignsCampaignIdRoute: typeof AuthenticatedCampaignsCampaignIdRoute
   AuthenticatedCampaignsNewRoute: typeof AuthenticatedCampaignsNewRoute
   AuthenticatedTesterAssignmentsRoute: typeof AuthenticatedTesterAssignmentsRoute
@@ -658,6 +679,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedSettingsRoute: AuthenticatedSettingsRoute,
   AuthenticatedTeamRoute: AuthenticatedTeamRoute,
   AuthenticatedTestersRoute: AuthenticatedTestersRoute,
+  AuthenticatedAdminRecruitmentRoute: AuthenticatedAdminRecruitmentRoute,
   AuthenticatedCampaignsCampaignIdRoute: AuthenticatedCampaignsCampaignIdRoute,
   AuthenticatedCampaignsNewRoute: AuthenticatedCampaignsNewRoute,
   AuthenticatedTesterAssignmentsRoute: AuthenticatedTesterAssignmentsRoute,

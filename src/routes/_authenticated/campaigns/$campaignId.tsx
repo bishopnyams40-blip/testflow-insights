@@ -39,6 +39,7 @@ import {
   type EvidenceType,
 } from "@/lib/service-engine";
 import { toSafeError } from "@/lib/errors";
+import { useCampaignRecruitment } from "@/hooks/useRecruitment";
 
 export const Route = createFileRoute("/_authenticated/campaigns/$campaignId")({
   head: () => ({
@@ -214,6 +215,7 @@ function CampaignDetailPage() {
         </section>
       )}
 
+      <RecruitmentCard campaignId={campaignId} />
       <TasksSection campaignId={campaignId} tasks={tasks} editable={actions.canEdit} />
       <RequirementsSection
         campaignId={campaignId}
@@ -268,6 +270,27 @@ function CampaignDetailPage() {
         ) : null}
       </section>
     </div>
+  );
+}
+
+function RecruitmentCard({ campaignId }: { campaignId: string }) {
+  const { data } = useCampaignRecruitment(campaignId);
+  if (!data) return null;
+  const label: Record<string, string> = {
+    NOT_STARTED: "Not started",
+    RECRUITING: "Recruiting testers",
+    REQUESTS_RECEIVED: "Requests received",
+    CLOSED: "Recruitment closed",
+  };
+  return (
+    <section className="rounded-xl border bg-card p-6">
+      <h2 className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">
+        Recruitment
+      </h2>
+      <p className="mt-2 text-sm">
+        {label[data.status] ?? data.status} · {data.filled} of {data.required} testers confirmed
+      </p>
+    </section>
   );
 }
 

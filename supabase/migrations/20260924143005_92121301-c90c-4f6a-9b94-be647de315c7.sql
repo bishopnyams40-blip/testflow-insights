@@ -1,0 +1,1 @@
+REVOKE ALL ON public.opportunities, public.job_requests, public.tester_invitations FROM anon;

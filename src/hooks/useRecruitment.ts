@@ -142,6 +142,30 @@ export function useAdminRecruitmentActions() {
   return { create, setStatus, review };
 }
 
+/** Campaigns an admin may open recruitment for. The server re-validates on creation. */
+export const RECRUITABLE_STATUSES = new Set([
+  "QUOTED",
+  "PAYMENT_PENDING",
+  "PAID",
+  "RECRUITING",
+  "MATCHING",
+  "ASSIGNING",
+  "TESTING",
+  "PAUSED",
+]);
+
+export function useRecruitableCampaigns(enabled: boolean) {
+  return useQuery({
+    queryKey: ["admin-recruitable-campaigns"],
+    enabled,
+    queryFn: async () => {
+      const { data, error } = await supabase.rpc("admin_list_campaigns", { _limit: 200, _offset: 0 });
+      if (error) throw error;
+      return (data ?? []).filter((c) => RECRUITABLE_STATUSES.has(c.status));
+    },
+  });
+}
+
 export function useCampaignRecruitment(campaignId: string) {
   return useQuery({
     queryKey: ["campaign-recruit", campaignId],

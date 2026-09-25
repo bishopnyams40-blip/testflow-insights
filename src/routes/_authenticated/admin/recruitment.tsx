@@ -9,6 +9,7 @@ import { useSession } from "@/hooks/useSession";
 import {
   useAdminRecruitment,
   useAdminRecruitmentActions,
+  useRecruitableCampaigns,
   type OpportunityStatus,
 } from "@/hooks/useRecruitment";
 import { toSafeError } from "@/lib/errors";
@@ -37,6 +38,7 @@ function AdminRecruitmentPage() {
   const { data: session } = useSession();
   const isAdmin = session?.roles.includes("ADMIN") ?? false;
   const { stats, opps, requests } = useAdminRecruitment(isAdmin);
+  const campaigns = useRecruitableCampaigns(isAdmin);
   const actions = useAdminRecruitmentActions();
   const [form, setForm] = useState({ campaignId: "", title: "", slots: 5, closesAt: "" });
 
@@ -68,11 +70,20 @@ function AdminRecruitmentPage() {
       <section className="space-y-3 rounded-xl border bg-card p-6">
         <h2 className="text-sm font-semibold uppercase text-muted-foreground">New opportunity</h2>
         <div className="grid gap-3 sm:grid-cols-4">
-          <Input
-            placeholder="Campaign ID"
+          <select
+            aria-label="Campaign"
+            className="h-9 rounded-md border border-input bg-background px-3 text-sm"
             value={form.campaignId}
             onChange={(e) => setForm({ ...form, campaignId: e.target.value })}
-          />
+          >
+            <option value="">Select a campaign…</option>
+            {(campaigns.data ?? []).map((c) => (
+              <option key={c.id} value={c.id}>
+                {c.name} · {c.service_type.replaceAll("_", " ").toLowerCase()} ·{" "}
+                {c.organization_name} · {c.status} · {c.participant_target} testers
+              </option>
+            ))}
+          </select>
           <Input
             placeholder="Title"
             value={form.title}

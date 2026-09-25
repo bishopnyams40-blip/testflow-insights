@@ -1,0 +1,1 @@
+DROP POLICY IF EXISTS "Testers read live opportunities" ON public.opportunities;
